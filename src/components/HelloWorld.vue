@@ -86,6 +86,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { getGroups } from '../api';
 
 export default Vue.extend({
   data: () => ({
@@ -140,5 +141,8 @@ export default Vue.extend({
       },
     ],
   }),
+  created() {
+    getGroups();
+  }
 });
 </script>
