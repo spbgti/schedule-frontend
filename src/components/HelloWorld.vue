@@ -2,7 +2,7 @@
   <v-data-table
     :headers="headers"
     :items="groups"
-    :items-per-page="5"
+    :items-per-page="15"
     class="elevation-1"
   ></v-data-table>
 </template>
@@ -16,28 +16,32 @@ import { GroupInterface } from '../interfaces';
 
 @Component
 export default class GroupList extends Vue {
+
     groups: Array<GroupInterface> = [];
 
     public async getList() {
         this.groups = await getGroups();
+        // delete if is not necessari from <here>
         console.log(this.groups);
         for (let key in this.groups){
             console.log("id: " + this.groups[key]['group_id'] + " group: " + this.groups[key]['number']);
         }
+        // to <here>
     };
+    
     created() {
         this.getList();
     };
 
-    data () {
+    data () { // refers to <v-data-table>
       return {
           headers : [
             {
               text: 'avalible group number',
               sortable: true,
-              value: 'number',
+              value: 'number', // value = key of json
             },
-            { text: 'group id', value: 'id' },
+            { text: 'group id', value: 'group_id' }, // value = key of json
           ],
           groups:this.groups,
       }
