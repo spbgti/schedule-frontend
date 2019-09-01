@@ -5,6 +5,6 @@ export interface Example {
 }
 */
 export interface GroupInterface {
-    id: number;
+    group_id: number;
     number: string;
 }
