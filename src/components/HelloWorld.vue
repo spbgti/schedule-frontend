@@ -11,8 +11,8 @@
         >
         <template v-slot:item="props">
             <tr @click="getGroupSchedule(props.item.group_id)">
-            <td>{{ props.item.group_id }}</td>
             <td>{{ props.item.number }}</td>
+            <td>{{ props.item.group_id }}</td>
             </tr>
         </template>
         </v-data-table>
@@ -23,13 +23,19 @@
 <script lang="ts">
 import Vue from 'vue';
 import {   getGroups   } from '../api';
+import {   getScheduleById   } from '../api';
 import vuetify from '../plugins/vuetify'; // path to vuetify export
 import { Component } from 'vue-property-decorator';
 import { GroupInterface } from '../interfaces';
+import { ScheduleInterface } from '../interfaces';
+
 //         show-select
 @Component
 export default class GroupList extends Vue {
     groups: Array<GroupInterface> = [];
+
+    shedule!: ScheduleInterface; // what is "!": https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-7.html
+
     headers : [{ text: string; sortable: boolean; value: string; }, { text: string; value: string; }] = [
       {
         text: 'avalible group number',
@@ -48,9 +54,13 @@ export default class GroupList extends Vue {
         }
         */ // to <here>
     };
+    public async getSchedule(id) {
+        this.shedule = await getScheduleById(id);
+    }
 
     getGroupSchedule(id){
         console.log('click' + id);
+        return this.getSchedule(id);
     };
 
     created() {
