@@ -47,7 +47,7 @@ import { ScheduleInterface } from '../interfaces';
 export default class GroupList extends Vue {
     groups: Array<GroupInterface> = [];
 
-    schedule: ScheduleInterface = {
+    schedule: Array<ScheduleInterface> = [{
         exercise_id: 0,
         schedule_id: 'space',
         room_id: 'space',
@@ -57,7 +57,7 @@ export default class GroupList extends Vue {
         pair: 'space',
         day: 'space',
         parity: 'space',
-    }; // what is "!": https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-7.html
+    }]; // what is "!": https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-7.html
 
     table_headers : [{ text: string; sortable: boolean; value: string; }, { text: string; value: string; }] = [
       {
@@ -85,12 +85,6 @@ export default class GroupList extends Vue {
 
     public async getList() {
         this.groups = await getGroups();
-        /* // delete if is not necessari from <here>
-        console.log(this.groups);
-        for (let key in this.groups){
-            console.log("id: " + this.groups[key]['group_id'] + " group: " + this.groups[key]['number']);
-        }
-        */ // to <here>
     };
     public async getSchedule(id: string, num: string) {
         this.schedule = await getScheduleById(id, num);
