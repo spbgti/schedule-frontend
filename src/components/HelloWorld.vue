@@ -19,7 +19,7 @@
         </v-app>
         <v-data-table
           :headers="schedule_headers"
-          :item="schedule"
+          :items="schedule"
           :items-per-page="15"
           item-key="number"
           class="elevation-1"
