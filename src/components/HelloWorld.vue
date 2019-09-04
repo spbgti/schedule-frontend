@@ -1,22 +1,35 @@
 <template>
   <v-container>
-     <v-app>
-        <v-btn @click="getGroupSchedule">btn</v-btn>
+      <v-row fluid>
+         <v-app>
+            <v-data-table
+              :headers="table_headers"
+              :items="groups"
+              :items-per-page="15"
+              item-key="number"
+              class="elevation-1"
+            >
+            <template v-slot:item="props">
+                <tr @click="getGroupSchedule(props.item.group_id, props.item.number)">
+                <td>{{ props.item.number }}</td>
+                <td>{{ props.item.group_id }}</td>
+                </tr>
+            </template>
+            </v-data-table>
+        </v-app>
         <v-data-table
-          :headers="headers"
-          :items="groups"
+          :headers="schedule_headers"
+          :item="schedule"
           :items-per-page="15"
           item-key="number"
           class="elevation-1"
         >
         <template v-slot:item="props">
-            <tr @click="getGroupSchedule(props.item.group_id)">
-            <td>{{ props.item.number }}</td>
-            <td>{{ props.item.group_id }}</td>
-            </tr>
+            <td>{{ props.item.name }}</td>
         </template>
         </v-data-table>
-    </v-app>
+    </v-row>
+
   </v-container>
 </template>
 
@@ -34,15 +47,40 @@ import { ScheduleInterface } from '../interfaces';
 export default class GroupList extends Vue {
     groups: Array<GroupInterface> = [];
 
-    shedule!: ScheduleInterface; // what is "!": https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-7.html
+    schedule: ScheduleInterface = {
+        exercise_id: 0,
+        schedule_id: 'space',
+        room_id: 'space',
+        teachers: 'space',
+        name: 'space',
+        type: 'space',
+        pair: 'space',
+        day: 'space',
+        parity: 'space',
+    }; // what is "!": https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-7.html
 
-    headers : [{ text: string; sortable: boolean; value: string; }, { text: string; value: string; }] = [
+    table_headers : [{ text: string; sortable: boolean; value: string; }, { text: string; value: string; }] = [
       {
         text: 'avalible group number',
         sortable: true,
         value: 'number', // value = key of json
       },
       { text: 'group id', value: 'group_id' }, // value = key of json
+    ];
+
+    schedule_headers :
+    [{ ex_id: string; value: string; }, { sced_id: string; value: string; }, { room_id: string; vlaue: string; },
+     { teachres: string; value: string; }, { name: string; value: string; }, { type: string; value: string; },
+     { pair: string; value: string; }, { day: string; value: string; }, { parity: string; value: string; }] = [
+        { ex_id: 'ex id', value: 'exercise_id' },
+        { sced_id: 'sced id', value: 'schedule_id'},
+        { room_id: 'room id', vlaue: 'room_id'},
+        { teachres: 'teachers', value: 'teachers'},
+        { name: 'name', value: 'name'},
+        { type: 'type', value: 'type'},
+        { pair: 'pair', value: 'pair'},
+        { day: 'day', value: 'day'},
+        { parity: 'parity', value: 'parity'},
     ];
 
     public async getList() {
@@ -54,13 +92,13 @@ export default class GroupList extends Vue {
         }
         */ // to <here>
     };
-    public async getSchedule(id) {
-        this.shedule = await getScheduleById(id);
+    public async getSchedule(id: string, num: string) {
+        this.schedule = await getScheduleById(id, num);
     }
 
-    getGroupSchedule(id){
-        console.log('click' + id);
-        return this.getSchedule(id);
+    getGroupSchedule(id: string, num: string){
+        console.log('click on group with id: ' + id + ' group number: ' + num);
+        this.getSchedule(id, num);
     };
 
     created() {
