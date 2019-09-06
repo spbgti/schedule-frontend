@@ -1,51 +1,62 @@
 <template>
   <v-container>
-      <v-row fluid>
-         <v-app>
+      <v-row>
+        <v-col
+          cols="6"
+        >
+          <v-app>
+              <v-data-table
+                :headers="table_headers"
+                :items="groups"
+                :items-per-page="15"
+                item-key="number"
+                class="elevation-1"
+              >.col-6
+              <template v-slot:item="props">  
+                  <tr @click="getGroupSchedule(props.item.group_id, props.item.number)">
+                  <td>{{ props.item.number }}</td>
+                  <td>{{ props.item.group_id }}</td>
+                  </tr>
+              </template>
+              </v-data-table>
+          </v-app>
+          <v-app>
             <v-data-table
-              :headers="table_headers"
-              :items="groups"
+              :headers="schedule_headers"
+              :items="schedule"
               :items-per-page="15"
               item-key="number"
               class="elevation-1"
             >
-            <template v-slot:item="props">  
-                <tr @click="getGroupSchedule(props.item.group_id, props.item.number)">
-                <td>{{ props.item.number }}</td>
-                <td>{{ props.item.group_id }}</td>
-                </tr>
+            <template v-slot:item="props">
+              <td>{{ props.item.exercises.exercise_id }}</td>
+              <td>{{ props.item.exercises.schedule_id }}</td>
+              <td>{{ props.item.exercises.room_id }}</td>
+              <td>{{ props.item.exercises.teachers }}</td>
+              <td>{{ props.item.exercises.name }}</td>
+              <td>{{ props.item.exercises.type }}</td>
+              <td>{{ props.item.exercises.pair }}</td>
+              <td>{{ props.item.exercises.day }}</td>
+              <td>{{ props.item.exercises.parity }}</td>
             </template>
             </v-data-table>
+          </v-app>
+        </v-col>
+        <v-col>
+          <v-app>
+              <v-select
+                :items="years"
+                label="Year"
+              ></v-select>
+              <v-select
+                :items="semesters"
+                label="Semester"
+              ></v-select>
         </v-app>
-        <v-app>
-          <v-select
-            :items="items"
-            label="Standard"
-          ></v-select>
-        </v-app>
-        <v-app>
-          <v-data-table
-            :headers="schedule_headers"
-            :items="schedule"
-            :items-per-page="15"
-            item-key="number"
-            class="elevation-1"
-          >
-          <template v-slot:item="props">
-            <td>{{ props.item.exercises.exercise_id }}</td>
-            <td>{{ props.item.exercises.schedule_id }}</td>
-            <td>{{ props.item.exercises.room_id }}</td>
-            <td>{{ props.item.exercises.teachers }}</td>
-            <td>{{ props.item.exercises.name }}</td>
-            <td>{{ props.item.exercises.type }}</td>
-            <td>{{ props.item.exercises.pair }}</td>
-            <td>{{ props.item.exercises.day }}</td>
-            <td>{{ props.item.exercises.parity }}</td>
-          </template>
-          </v-data-table>
-        </v-app>
-    </v-row>
-
+        </v-col>
+      </v-row>
+      <v-row>
+      </v-row>
   </v-container>
 </template>
 
@@ -64,7 +75,8 @@ import { ScheduleInterface } from '../interfaces';
 export default class GroupList extends Vue {
     groups: Array<GroupInterface> = [];
 
-    items: [number, number, number] = [1,2,3];
+    semesters = [1, 2, 3, 4, 5, 6, 7, 8];
+    years = [2016, 2017, 2018, 2019];
 
     schedule: Array<ScheduleInterface> = []; // what is "!": https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-7.html
 
