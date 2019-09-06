@@ -9,7 +9,7 @@
               item-key="number"
               class="elevation-1"
             >
-            <template v-slot:item="props">
+            <template v-slot:item="props">  
                 <tr @click="getGroupSchedule(props.item.group_id, props.item.number)">
                 <td>{{ props.item.number }}</td>
                 <td>{{ props.item.group_id }}</td>
@@ -17,17 +17,33 @@
             </template>
             </v-data-table>
         </v-app>
-        <v-data-table
-          :headers="schedule_headers"
-          :items="schedule"
-          :items-per-page="15"
-          item-key="number"
-          class="elevation-1"
-        >
-        <template v-slot:item="props">
-            <td>{{ props.item.name }}</td>
-        </template>
-        </v-data-table>
+        <v-app>
+          <v-select
+            :items="items"
+            label="Standard"
+          ></v-select>
+        </v-app>
+        <v-app>
+          <v-data-table
+            :headers="schedule_headers"
+            :items="schedule"
+            :items-per-page="15"
+            item-key="number"
+            class="elevation-1"
+          >
+          <template v-slot:item="props">
+            <td>{{ props.item.exercises.exercise_id }}</td>
+            <td>{{ props.item.exercises.schedule_id }}</td>
+            <td>{{ props.item.exercises.room_id }}</td>
+            <td>{{ props.item.exercises.teachers }}</td>
+            <td>{{ props.item.exercises.name }}</td>
+            <td>{{ props.item.exercises.type }}</td>
+            <td>{{ props.item.exercises.pair }}</td>
+            <td>{{ props.item.exercises.day }}</td>
+            <td>{{ props.item.exercises.parity }}</td>
+          </template>
+          </v-data-table>
+        </v-app>
     </v-row>
 
   </v-container>
@@ -40,6 +56,7 @@ import {   getScheduleById   } from '../api';
 import vuetify from '../plugins/vuetify'; // path to vuetify export
 import { Component } from 'vue-property-decorator';
 import { GroupInterface } from '../interfaces';
+import { ExerciseInterface } from '../interfaces';
 import { ScheduleInterface } from '../interfaces';
 
 //         show-select
@@ -47,17 +64,9 @@ import { ScheduleInterface } from '../interfaces';
 export default class GroupList extends Vue {
     groups: Array<GroupInterface> = [];
 
-    schedule: Array<ScheduleInterface> = [{
-        exercise_id: 0,
-        schedule_id: 'space',
-        room_id: 'space',
-        teachers: 'space',
-        name: 'space',
-        type: 'space',
-        pair: 'space',
-        day: 'space',
-        parity: 'space',
-    }]; // what is "!": https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-7.html
+    items: [number, number, number] = [1,2,3];
+
+    schedule: Array<ScheduleInterface> = []; // what is "!": https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-7.html
 
     table_headers : [{ text: string; sortable: boolean; value: string; }, { text: string; value: string; }] = [
       {
@@ -69,18 +78,32 @@ export default class GroupList extends Vue {
     ];
 
     schedule_headers :
-    [{ ex_id: string; value: string; }, { sced_id: string; value: string; }, { room_id: string; vlaue: string; },
-     { teachres: string; value: string; }, { name: string; value: string; }, { type: string; value: string; },
-     { pair: string; value: string; }, { day: string; value: string; }, { parity: string; value: string; }] = [
-        { ex_id: 'ex id', value: 'exercise_id' },
-        { sced_id: 'sced id', value: 'schedule_id'},
-        { room_id: 'room id', vlaue: 'room_id'},
-        { teachres: 'teachers', value: 'teachers'},
-        { name: 'name', value: 'name'},
-        { type: 'type', value: 'type'},
-        { pair: 'pair', value: 'pair'},
-        { day: 'day', value: 'day'},
-        { parity: 'parity', value: 'parity'},
+    [{ schedule_id: number; value: number}, {group_id: string; value: string},
+    {year: string; value: string}, {semester: string; value: string},
+    {exercises: ExerciseInterface; value: ExerciseInterface}] = [
+      {schedule_id: 0, value: 0},
+      {group_id: 'group_id', value: 'group id'},
+      {year: 'year', value: '0000'},
+      {semester: 'semester', value: 'semester'},
+      {exercises: { exercise_id: 0,
+        schedule_id: 'schedule_id',
+        room_id: 'room_id',
+        teachers: 'teachers',
+        name: 'name',
+        type: 'type',
+        pair: 'pair',
+        day: 'day',
+        parity: 'parity'}
+        , value: { exercise_id: 0,
+        schedule_id: 'schedule_id',
+        room_id: 'room_id',
+        teachers: 'teachers',
+        name: 'name',
+        type: 'type',
+        pair: 'pair',
+        day: 'day',
+        parity: 'parity'}
+      }
     ];
 
     public async getList() {

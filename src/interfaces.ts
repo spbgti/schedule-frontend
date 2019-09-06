@@ -9,7 +9,7 @@ export interface GroupInterface {
     number: string;
 }
 
-export interface ScheduleInterface {
+export interface ExerciseInterface {
     exercise_id: number;
     schedule_id: string;
     room_id: string;
@@ -19,4 +19,12 @@ export interface ScheduleInterface {
     pair: string;
     day: string;
     parity: string;
+}
+
+export interface ScheduleInterface {
+    schedule_id: number;
+    group_id: string;
+    year: string;
+    semester: string;
+    exercises: ExerciseInterface;
 }
