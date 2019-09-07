@@ -11,7 +11,7 @@
                 :items-per-page="15"
                 item-key="number"
                 class="elevation-1"
-              >.col-6
+              >
               <template v-slot:item="props">  
                   <tr @click="getGroupSchedule(props.item.group_id, props.item.number)">
                   <td>{{ props.item.number }}</td>
@@ -29,15 +29,17 @@
               class="elevation-1"
             >
             <template v-slot:item="props">
-              <td>{{ props.item.exercises.exercise_id }}</td>
-              <td>{{ props.item.exercises.schedule_id }}</td>
-              <td>{{ props.item.exercises.room_id }}</td>
-              <td>{{ props.item.exercises.teachers }}</td>
-              <td>{{ props.item.exercises.name }}</td>
-              <td>{{ props.item.exercises.type }}</td>
-              <td>{{ props.item.exercises.pair }}</td>
-              <td>{{ props.item.exercises.day }}</td>
-              <td>{{ props.item.exercises.parity }}</td>
+              <div v-for='ex of props.item.exercises'>
+                <td>{{ ex.exercise_id}}</td>
+                <td>{{ ex.schedule_id }}</td>
+                <td>{{ ex.room_id }}</td>
+                <td>{{ ex.teachers }}</td>
+                <td>{{ ex.name }}</td>
+                <td>{{ ex.type }}</td>
+                <td>{{ ex.pair }}</td>
+                <td>{{ ex.day }}</td>
+                <td>{{ ex.parity }}</td>
+              </div>
             </template>
             </v-data-table>
           </v-app>
@@ -45,10 +47,12 @@
         <v-col>
           <v-app>
               <v-select
+                ref = "year_select"
                 :items="years"
                 label="Year"
               ></v-select>
               <v-select
+                ref = "semester_select"
                 :items="semesters"
                 label="Semester"
               ></v-select>
@@ -119,15 +123,17 @@ export default class GroupList extends Vue {
     ];
 
     public async getList() {
-        this.groups = await getGroups();
+      this.groups = await getGroups();
     };
-    public async getSchedule(id: string, num: string) {
-        this.schedule = await getScheduleById(id, num);
+    public async getSchedule(id: string, num: string,  year: string, semester: string) {
+      this.schedule = await getScheduleById(id, num, year, semester);
     }
 
     getGroupSchedule(id: string, num: string){
-        console.log('click on group with id: ' + id + ' group number: ' + num);
-        this.getSchedule(id, num);
+      let year = this.$refs.year_select.initialValue;
+      let semester = this.$refs.semester_select.initialValue;
+      console.log('click on group with id: ' + id + ' group number: ' + num + ' year: ' + year + ' semester: ' + semester);
+      this.getSchedule(id, num, year, semester);
     };
 
     created() {

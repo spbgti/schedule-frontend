@@ -13,12 +13,12 @@ export async function getGroups() :Promise<GroupInterface[]> {
     return (await instance.get('/groups')).data as GroupInterface[];
 }
 
-export async function getScheduleById(id: string, num: string) :Promise<ScheduleInterface[]> {
+export async function getScheduleById(id: string, num: string, year: string, semester: string) :Promise<ScheduleInterface[]> {
     let params = {
         group: id,
         group_number: num,
-        year: '2016',
-        semester: '2',
+        year: year,
+        semester: semester,
     };
     return (await instance.get('/schedules', {
         params: params
