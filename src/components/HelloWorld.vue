@@ -17,11 +17,11 @@
             item-key="number"
             :search="search"
           >
-          <template v-slot:item="props">  
-              <tr @click="selectGroup(props.item.group_id, props.item.number)">
-              <td>{{ props.item.number }}</td>
-              <td>{{ props.item.group_id }}</td>
-              </tr>
+          <template v-slot:item="props"> 
+            <tr @click="selectGroup(props.item.group_id, props.item.number)">
+            <td>{{ props.item.number }}</td>
+            <td>{{ props.item.group_id }}</td>
+            </tr>
           </template>
           </v-data-table>
         </v-col>
@@ -48,7 +48,6 @@
               :items-per-page="15"
               item-key="number"
             >
-            <td>text</td>
             <template v-slot:item="props">
               <tr>
               <td>{{ props.item.exercise_id}}</td>
@@ -104,7 +103,7 @@ export default class GroupList extends Vue {
     { text: string; value: string; }] = [
       { text: 'exercises id',
         value: 'exercise_id', },
-      { text: 'scheduleid',
+      { text: 'schedule id',
         value: 'schedule_id', },
       { text: 'room id',
         value: 'room_id', },
@@ -121,41 +120,6 @@ export default class GroupList extends Vue {
       { text: 'parity',
         value: 'parity', },
     ]
-
-/*
-    schedule_headers :
-    [{ schedule_id: number; value: number}, {group_id: string; value: string},
-    {year: string; value: string}, {semester: string; value: string},
-    {exercises: ExerciseInterface; value: ExerciseInterface}] = [
-      {schedule_id: 0, value: 0},
-      {group_id: 'group_id', value: 'group id'},
-      {year: 'year', value: '0000'},
-      {semester: 'semester', value: 'semester'}, {
-        exercises: { 
-        exercise_id: 0,
-        schedule_id: 'schedule_id',
-        room_id: 'room_id',
-        teachers: 'teachers',
-        name: 'name',
-        type: 'type',
-        pair: 'pair',
-        day: 'day',
-        parity: 'parity'
-        }
-        , value: {
-          exercise_id: 0,
-          schedule_id: 'schedule_id',
-          room_id: 'room_id',
-          teachers: 'teachers',
-          name: 'name',
-          type: 'type',
-          pair: 'pair',
-          day: 'day',
-          parity: 'parity'
-        }
-      }
-    ];
-    */
 
     public async getList() {
       this.groups = await getGroups();

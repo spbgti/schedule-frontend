@@ -24,10 +24,3 @@ export async function getScheduleById(id: string, num: string, year: string, sem
         params: params
     })).data as ScheduleInterface[];
 }
-/*
-axios.get('/user', {
-    params: {
-      ID: 12345
-    }
-  })
-*/
