@@ -1,68 +1,71 @@
 <template>
   <v-container>
-      <v-row>
-        <v-col>
-          <v-card-title>
-            <v-text-field
-              v-model="search"
-              label="Serach group"
-              single-line
-              hide-details
-            ></v-text-field>
-          </v-card-title>
-          <v-data-table
-            :headers="table_headers"
-            :items="groups"
-            :items-per-page="5"
-            item-key="number"
-            :search="search"
+    <v-row>
+      <v-col>
+        <v-card-title>
+          <v-text-field
+            v-model="search"
+            label="Serach group"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-card-title>
+        <v-data-table
+          :headers="table_headers"
+          :items="groups"
+          :items-per-page="5"
+          item-key="number"
+          :search="search"
+        >
+        <template v-slot:item="props">
+          <tr
+          @click="selectGroup(props.item.group_id, props.item.number, props)"
+          :style="[selectedNumber === props.item.group_id ? {'background': 'rgba(68, 219, 252, 0.2)'} : {'background': '#FFF'}]"
           >
-          <template v-slot:item="props"> 
-            <tr @click="selectGroup(props.item.group_id, props.item.number)">
-            <td>{{ props.item.number }}</td>
-            <td>{{ props.item.group_id }}</td>
+          <td>{{ props.item.number }}</td>
+          <td>{{ props.item.group_id }}</td>
+          </tr>
+        </template>
+        </v-data-table>
+      </v-col>
+      <v-col>
+        <v-select
+          ref = "year_select"
+          :items="years"
+          label="Year"
+        ></v-select>
+        <v-select
+          ref = "semester_select"
+          :items="semesters"
+          label="Semester"
+        ></v-select>
+        <v-btn @click="getGroupSchedule()">
+          Get schedules
+        </v-btn>
+      </v-col>
+    </v-row>
+    <div v-for="ex in schedule" v-bind:key='ex'>
+      <v-data-table
+            :headers="schedule_headers"
+            :items="ex.exercises"
+            :items-per-page="15"
+            item-key="number"
+          >
+          <template v-slot:item="props">
+            <tr>
+            <td>{{ props.item.exercise_id}}</td>
+            <td>{{ props.item.schedule_id }}</td>
+            <td>{{ props.item.room_id }}</td>
+            <td>{{ props.item.teachers }}</td>
+            <td>{{ props.item.name }}</td>
+            <td>{{ props.item.type }}</td>
+            <td>{{ props.item.pair }}</td>
+            <td>{{ props.item.day }}</td>
+            <td>{{ props.item.parity }}</td>
             </tr>
           </template>
-          </v-data-table>
-        </v-col>
-        <v-col>
-          <v-select
-            ref = "year_select"
-            :items="years"
-            label="Year"
-          ></v-select>
-          <v-select
-            ref = "semester_select"
-            :items="semesters"
-            label="Semester"
-          ></v-select>
-          <v-btn @click="getGroupSchedule()">
-            Get schedules
-          </v-btn>
-        </v-col>
-      </v-row>
-      <div v-for="ex in schedule" v-bind:key='ex'>
-        <v-data-table
-              :headers="schedule_headers"
-              :items="ex.exercises"
-              :items-per-page="15"
-              item-key="number"
-            >
-            <template v-slot:item="props">
-              <tr>
-              <td>{{ props.item.exercise_id}}</td>
-              <td>{{ props.item.schedule_id }}</td>
-              <td>{{ props.item.room_id }}</td>
-              <td>{{ props.item.teachers }}</td>
-              <td>{{ props.item.name }}</td>
-              <td>{{ props.item.type }}</td>
-              <td>{{ props.item.pair }}</td>
-              <td>{{ props.item.day }}</td>
-              <td>{{ props.item.parity }}</td>
-              </tr>
-            </template>
-        </v-data-table>
-      </div>
+      </v-data-table>
+    </div>
   </v-container>
 </template>
 
@@ -74,78 +77,77 @@ import { GroupInterface, ExerciseInterface, ScheduleInterface } from '../interfa
 
 @Component
 export default class GroupList extends Vue {
-    groups: Array<GroupInterface> = [];
+  groups: Array<GroupInterface> = [];
 
-    search: string = '';
+  selectedNumber: number = 0;
 
-    selected_group!: string;
-    selected_group_id!: string;
+  search: string = '';
 
-    semesters = [1, 2, 3, 4, 5, 6, 7, 8];
+  selected_group!: string;
+  selected_group_id!: string;
 
-    years = [2016, 2017, 2018, 2019];
+  semesters = [1, 2, 3, 4, 5, 6, 7, 8];
 
-    schedule: Array<ScheduleInterface> = [];
+  years = [2016, 2017, 2018, 2019];
 
-    table_headers : [{ text: string; sortable: boolean; value: string; }, { text: string; value: string; }] = [
-      {
-        text: 'avalible group number',
-        sortable: true,
-        value: 'number',
-      },
-      { text: 'group id', value: 'group_id' },
-    ];
+  schedule: Array<ScheduleInterface> = [];
 
-    schedule_headers :[{ text: string; value: string; }, { text: string; value: string; },
-    { text: string; value: string; }, { text: string; value: string; }, 
-    { text: string; value: string; }, { text: string; value: string; },
-    { text: string; value: string; }, { text: string; value: string; },
-    { text: string; value: string; }] = [
-      { text: 'exercises id',
-        value: 'exercise_id', },
-      { text: 'schedule id',
-        value: 'schedule_id', },
-      { text: 'room id',
-        value: 'room_id', },
-      { text: 'teachers',
-        value: 'teachers', },
-      { text: 'name',
-        value: 'name', },
-      { text: 'type',
-        value: 'type', },
-      { text: 'pair',
-        value: 'pair', },
-      { text: 'day',
-        value: 'day', },
-      { text: 'parity',
-        value: 'parity', },
-    ]
+  table_headers : [{ text: string; sortable: boolean; value: string; }, { text: string; value: string; }] = [
+    {
+      text: 'avalible group number',
+      sortable: true,
+      value: 'number',
+    },
+    { text: 'group id', value: 'group_id' },
+  ];
 
-    public async getList() {
-      this.groups = await getGroups();
-    };
-    
-    public async getSchedule(id: string, num: string,  year: string, semester: string) { // call last
-      this.schedule = await getScheduleById(id, num, year, semester);
-    }
+  schedule_headers :[{ text: string; value: string; }, { text: string; value: string; },
+  { text: string; value: string; }, { text: string; value: string; }, 
+  { text: string; value: string; }, { text: string; value: string; },
+  { text: string; value: string; }, { text: string; value: string; },
+  { text: string; value: string; }] = [
+    { text: 'exercises id',
+      value: 'exercise_id', },
+    { text: 'schedule id',
+      value: 'schedule_id', },
+    { text: 'room id',
+      value: 'room_id', },
+    { text: 'teachers',
+      value: 'teachers', },
+    { text: 'name',
+      value: 'name', },
+    { text: 'type',
+      value: 'type', },
+    { text: 'pair',
+      value: 'pair', },
+    { text: 'day',
+      value: 'day', },
+    { text: 'parity',
+      value: 'parity', },
+  ]
 
-    getGroupSchedule(){ // get schedule by click btn
-      let year = this.$refs.year_select.initialValue;
-      let semester = this.$refs.semester_select.initialValue;
-      
-      console.log('click on group with id: ' + this.selected_group_id + ' group number: ' + this.selected_group +
-      ' year: ' + year + ' semester: ' + semester);
-      
-      this.getSchedule(this.selected_group_id, this.selected_group, year, semester);
-    };
+  public async getList() {
+    this.groups = await getGroups();
+  };
+  
+  public async getSchedule(id: string, num: string,  year: string, semester: string) { // call last
+    this.schedule = await getScheduleById(id, num, year, semester);
+  }
 
-    selectGroup(id: string, num: string){ // set id and group number by click on row
-      this.selected_group = num;
-      this.selected_group_id = id;
-    }
+  getGroupSchedule(){ // get schedule by click btn
+    let year = (this.$refs.year_select as Vue & { initialValue: () => number }).initialValue.toString();
+    let semester = (this.$refs.semester_select as Vue & { initialValue: () => number}).initialValue.toString();
+    this.getSchedule(this.selected_group_id, this.selected_group, year, semester);
+  };
 
-    created() {
-      this.getList();
-    };
+  selectGroup(id: string, num: string, index: any){ // set id and group number by click on row
+    this.selected_group = num;
+    this.selected_group_id = id;
+    this.selectedNumber = Number(id);
+  }
+
+  created() {
+    this.getList();
+  };
 }
 </script>
