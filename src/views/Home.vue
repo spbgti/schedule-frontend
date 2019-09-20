@@ -1,14 +1,14 @@
 <template>
-  <HelloWorld />
+  <Schedule_mod/>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import HelloWorld from '../components/HelloWorld.vue';
+import Schedule_mod from '../components/Schedule_mod.vue';
 
 export default Vue.extend({
   components: {
-    HelloWorld,
+    Schedule_mod,
   },
 });
 </script>
