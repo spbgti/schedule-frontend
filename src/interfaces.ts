@@ -1,15 +1,9 @@
-/*
-export interface Example {
-    id: number;
-    something: string;
-}
-*/
-export interface GroupInterface {
+export interface IGroup {
     group_id: number;
     number: string;
 }
 
-export interface ExerciseInterface {
+export interface IExercise {
     exercise_id: number;
     schedule_id: string;
     room_id: string;
@@ -21,10 +15,10 @@ export interface ExerciseInterface {
     parity: string;
 }
 
-export interface ScheduleInterface {
+export interface ISchedule {
     schedule_id: number;
     group_id: string;
     year: string;
     semester: string;
-    exercises: ExerciseInterface;
+    exercises: IExercise;
 }

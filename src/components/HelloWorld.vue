@@ -44,12 +44,13 @@
         </v-btn>
       </v-col>
     </v-row>
-    <div v-for="ex in schedule" v-bind:key='ex'>
+    Чтобы сортировать полученное расписание, выполни сортировку по id 
+    <div v-for="ex in schedule" v-bind:key="ex">
       <v-data-table
             :headers="schedule_headers"
             :items="ex.exercises"
             :items-per-page="15"
-            item-key="number"
+            item-key="items.key"
           >
           <template v-slot:item="props">
             <tr>
@@ -70,61 +71,58 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { getGroups, getScheduleById } from '../api';
-import { Component } from 'vue-property-decorator';
-import { GroupInterface, ExerciseInterface, ScheduleInterface } from '../interfaces';
+import Vue from "vue";
+import { getGroups, getScheduleById } from "@/api";
+import { Component } from "vue-property-decorator";
+import { IGroup, ISchedule } from "@/interfaces";
 
 @Component
 export default class GroupList extends Vue {
-  groups: Array<GroupInterface> = [];
+  groups: Array<IGroup> = [];
 
   selectedNumber: number = 0;
 
-  search: string = '';
+  search: string = "";
 
   selected_group!: string;
   selected_group_id!: string;
 
   semesters = [1, 2, 3, 4, 5, 6, 7, 8];
 
-  years = [2016, 2017, 2018, 2019];
+  currentYear = new Date().getFullYear();
+  years = [this.currentYear-3, this.currentYear-2, this.currentYear-1, this.currentYear];
 
-  schedule: Array<ScheduleInterface> = [];
+  schedule: Array<ISchedule> = [];
 
-  table_headers : [{ text: string; sortable: boolean; value: string; }, { text: string; value: string; }] = [
+  table_headers = [
     {
-      text: 'avalible group number',
+      text: "avalible group number",
       sortable: true,
-      value: 'number',
+      value: "number",
     },
-    { text: 'group id', value: 'group_id' },
+    { text: "group id", value: "group_id" },
   ];
 
-  schedule_headers :[{ text: string; value: string; }, { text: string; value: string; },
-  { text: string; value: string; }, { text: string; value: string; }, 
-  { text: string; value: string; }, { text: string; value: string; },
-  { text: string; value: string; }, { text: string; value: string; },
-  { text: string; value: string; }] = [
-    { text: 'exercises id',
-      value: 'exercise_id', },
-    { text: 'schedule id',
-      value: 'schedule_id', },
-    { text: 'room id',
-      value: 'room_id', },
-    { text: 'teachers',
-      value: 'teachers', },
-    { text: 'name',
-      value: 'name', },
-    { text: 'type',
-      value: 'type', },
-    { text: 'pair',
-      value: 'pair', },
-    { text: 'day',
-      value: 'day', },
-    { text: 'parity',
-      value: 'parity', },
-  ]
+  schedule_headers = [
+    { text: "exercises id",
+      value: "exercise_id", },
+    { text: "schedule id",
+      value: "schedule_id", },
+    { text: "room id",
+      value: "room_id", },
+    { text: "teachers",
+      value: "teachers", },
+    { text: "name",
+      value: "name", },
+    { text: "type",
+      value: "type", },
+    { text: "pair",
+      value: "pair", },
+    { text: "day",
+      value: "day", },
+    { text: "parity",
+      value: "parity", },
+  ];
 
   public async getList() {
     this.groups = await getGroups();
