@@ -72,7 +72,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { getGroups, getScheduleByAPI } from "@/api";
+import * as api from '@/api';
 import { Component } from "vue-property-decorator";
 import { IGroup, ISchedule } from "@/interfaces";
 
@@ -124,11 +124,11 @@ export default class GroupList extends Vue {
   ];
 
   public async getList() {
-    this.groups = await getGroups();
+    this.groups = await api.getGroups();
   };
   
   public async getSchedule(groupId: string, year: string, semester: string) { // call last
-    this.schedule = await getScheduleByAPI(groupId, year, semester);
+    this.schedule = await api.getSchedule(groupId, year, semester);
   }
 
   getGroupSchedule(){ // get schedule by click btn

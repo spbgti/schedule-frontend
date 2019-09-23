@@ -11,7 +11,7 @@ export async function getGroups(): Promise<IGroup[]> {
   return (await instance.get("/groups")).data as IGroup[];
 }
 
-export async function getScheduleByAPI(groupId: string, year: string, semester: string): Promise<ISchedule[]> {
+export async function getSchedule(groupId: string, year: string, semester: string): Promise<ISchedule[]> {
   let params = {
     group: groupId,
     year: year,
