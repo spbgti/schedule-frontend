@@ -11,10 +11,9 @@ export async function getGroups(): Promise<IGroup[]> {
   return (await instance.get("/groups")).data as IGroup[];
 }
 
-export async function getScheduleById(id: string, num: string, year: string, semester: string): Promise<ISchedule[]> {
+export async function getScheduleByAPI(groupId: string, year: string, semester: string): Promise<ISchedule[]> {
   let params = {
-    group: id,
-    group_number: num,
+    group: groupId,
     year: year,
     semester: semester
   };

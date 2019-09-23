@@ -11,7 +11,7 @@
           ></v-text-field>
         </v-card-title>
         <v-data-table
-          :headers="table_headers"
+          :headers="tableHeaders"
           :items="groups"
           :items-per-page="5"
           item-key="number"
@@ -47,7 +47,7 @@
     Чтобы сортировать полученное расписание, выполни сортировку по id 
     <div v-for="ex in schedule" v-bind:key="ex">
       <v-data-table
-            :headers="schedule_headers"
+            :headers="scheduleHeaders"
             :items="ex.exercises"
             :items-per-page="15"
             item-key="items.key"
@@ -72,7 +72,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { getGroups, getScheduleById } from "@/api";
+import { getGroups, getScheduleByAPI } from "@/api";
 import { Component } from "vue-property-decorator";
 import { IGroup, ISchedule } from "@/interfaces";
 
@@ -84,17 +84,16 @@ export default class GroupList extends Vue {
 
   search: string = "";
 
-  selected_group!: string;
-  selected_group_id!: string;
+  selectedGroupId!: string;
 
-  semesters = [1, 2, 3, 4, 5, 6, 7, 8];
+  semesters = [1, 2]; // year-like semesters
 
   currentYear = new Date().getFullYear();
   years = [this.currentYear-3, this.currentYear-2, this.currentYear-1, this.currentYear];
 
   schedule: Array<ISchedule> = [];
 
-  table_headers = [
+  tableHeaders = [
     {
       text: "avalible group number",
       sortable: true,
@@ -103,7 +102,7 @@ export default class GroupList extends Vue {
     { text: "group id", value: "group_id" },
   ];
 
-  schedule_headers = [
+  scheduleHeaders = [
     { text: "exercises id",
       value: "exercise_id", },
     { text: "schedule id",
@@ -128,20 +127,19 @@ export default class GroupList extends Vue {
     this.groups = await getGroups();
   };
   
-  public async getSchedule(id: string, num: string,  year: string, semester: string) { // call last
-    this.schedule = await getScheduleById(id, num, year, semester);
+  public async getSchedule(groupId: string, year: string, semester: string) { // call last
+    this.schedule = await getScheduleByAPI(groupId, year, semester);
   }
 
   getGroupSchedule(){ // get schedule by click btn
     let year = (this.$refs.year_select as Vue & { initialValue: () => number }).initialValue.toString();
     let semester = (this.$refs.semester_select as Vue & { initialValue: () => number}).initialValue.toString();
-    this.getSchedule(this.selected_group_id, this.selected_group, year, semester);
+    this.getSchedule(this.selectedGroupId, year, semester);
   };
 
-  selectGroup(id: string, num: string, index: any){ // set id and group number by click on row
-    this.selected_group = num;
-    this.selected_group_id = id;
-    this.selectedNumber = Number(id);
+  selectGroup(groupId: string, index: any){ // set id and group number by click on row
+    this.selectedGroupId = groupId;
+    this.selectedNumber = Number(groupId);
   }
 
   created() {
