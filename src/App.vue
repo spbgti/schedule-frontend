@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-content>
-      <Schedule_mod/>
+      <schedule_mod/>
     </v-content>
   </v-app>
 </template>
