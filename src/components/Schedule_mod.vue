@@ -1,3 +1,4 @@
+
 <template>
   <v-container>
     <v-row>
@@ -45,6 +46,7 @@
       </v-col>
     </v-row>
     <div>
+      <!--data table formed in ScheduleTable component-->
       <schedule-table
       v-if = "schedule.length > 0"
       :exercises="schedule[0].exercises"
@@ -66,7 +68,6 @@ import ScheduleTable from '@/components/ScheduleTable.vue'
   }
 })
 export default class GroupList extends Vue {
-  //tableComponent: ScheduleTable = new ScheduleTable();
 
   groups: Array<IGroup> = [];
 
