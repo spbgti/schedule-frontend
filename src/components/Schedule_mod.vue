@@ -61,10 +61,12 @@ import * as api from '@/api';
 import { Component } from "vue-property-decorator";
 import { IGroup, ISchedule } from "@/interfaces";
 import ScheduleTable from '@/components/ScheduleTable.vue'
+import ScheduleWeek from '@/components/ScheduleWeek.vue'
 
 @Component({
   components: {
     ScheduleTable,
+    ScheduleWeek,
   }
 })
 export default class GroupList extends Vue {
