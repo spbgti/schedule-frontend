@@ -1,8 +1,14 @@
 <template>
   <v-container>
-    Here is should be table of even and odd week
+    Четная неделя
     <schedule-week
     :exercises="exercises"
+    :even="true"
+    />
+    Нечетная неделя
+    <schedule-week
+    :exercises="exercises"
+    :even="false"
     />
   </v-container>
 </template>
