@@ -2,7 +2,6 @@
   <v-container>
     Here is should be table of even and odd week
     <schedule-week
-    :even="this.evenPar"
     :exercises="exercises"
     />
   </v-container>
@@ -14,16 +13,13 @@ import { IExercise } from "@/interfaces"
 import ScheduleWeek from '@/components/ScheduleWeek.vue'
 
 @Component({
+  name: 'ScheduleTable',
   components: {
     ScheduleWeek,
   }
 })
-
-@Component
 export default class ScheduleTable extends Vue {
   @Prop( {required: true, type: Array } ) readonly exercises!: IExercise;
-
-  evenPar = true;
 
     scheduleHeaders = [
     { text: "exercises id",
