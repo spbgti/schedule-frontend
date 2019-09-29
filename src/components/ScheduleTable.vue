@@ -1,15 +1,21 @@
 <template>
   <v-container>
-    Четная неделя
-    <schedule-week
-    :exercises="exercises"
-    :even="true"
-    />
-    Нечетная неделя
-    <schedule-week
-    :exercises="exercises"
-    :even="false"
-    />
+    <v-row>
+      <v-col>
+        Четная неделя
+        <schedule-week
+        :exercises="exercises"
+        :even="true"
+        />
+      </v-col>
+      <v-col>
+        Нечетная неделя
+        <schedule-week
+        :exercises="exercises"
+        :even="false"
+        />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <script lang="ts">
@@ -25,7 +31,7 @@ import ScheduleWeek from '@/components/ScheduleWeek.vue'
   }
 })
 export default class ScheduleTable extends Vue {
-  @Prop( {required: true, type: Array } ) readonly exercises!: IExercise;
+  @Prop( {required: true, type: Array } ) readonly exercises!: IExercise[];
 
     scheduleHeaders = [
     { text: "exercises id",
