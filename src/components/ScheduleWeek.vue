@@ -2,7 +2,7 @@
   <v-container>
     <!--exercises receives from parent-->
     <div
-    v-for="(ex, index) in exercises"
+    v-for="(ex, index) in orderedItems(exercises)"
     :key="index"
     >
       <schedule-day
@@ -27,29 +27,23 @@ import ScheduleDay from '@/components/ScheduleDay.vue'
 export default class ScheduleWeek extends Vue {
   @Prop( {required: true, type: Array } ) readonly exercises!: IExercise;
   @Prop( {required: true, type: Boolean } ) readonly even!: Boolean;
+  
   parity = this.even ? 2 : 1;
+
+  sortByDay(itemA: IExercise, itemB: IExercise){
+    return (parseInt(itemA.day) - parseInt(itemB.day));
+  }
+  sortByPair(itemA: IExercise, itemB: IExercise){
+    if (parseInt(itemA.day) - parseInt(itemB.day) == 0){
+      return (parseInt(itemA.pair) - parseInt(itemB.pair));
+    } return 0;
+  }
+
+  orderedItems (items : Array<IExercise>) {
+    items.sort(this.sortByDay);
+    items.sort(this.sortByPair);
+    return items;
+  }
 }
-/*
-<v-data-table
-      :headers="scheduleHeaders"
-      :items="exercises"
-      :items-per-page="15"
-      multi-sort
-      item-key="items.key"
-    >
-      <template v-slot:item="props">
-        <tr>
-        <td v-if = "props.item.parity != parity">{{ props.item.exercise_id}}</td>
-        <td v-if = "props.item.parity != parity">{{ props.item.schedule_id }}</td>
-        <td v-if = "props.item.parity != parity">{{ props.item.room_id }}</td>
-        <td v-if = "props.item.parity != parity">{{ props.item.teachers }}</td>
-        <td v-if = "props.item.parity != parity">{{ props.item.name }}</td>
-        <td v-if = "props.item.parity != parity">{{ props.item.type }}</td>
-        <td v-if = "props.item.parity != parity">{{ props.item.pair }}</td>
-        <td v-if = "props.item.parity != parity">{{ props.item.day }}</td>
-        <td v-if = "props.item.parity != parity">{{ props.item.parity }}</td>
-        </tr>
-      </template>
-    </v-data-table>
-*/
+
 </script>
