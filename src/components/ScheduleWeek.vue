@@ -47,7 +47,6 @@ export default class ScheduleWeek extends Vue {
 
   created(){
     let orderedExercises = this.orderedItems(this.exercises)
-    //console.log(orderedExercises)
     for (let i = 0; i != orderedExercises.length; ++i){
       this.setDaysSchedule(orderedExercises[i]);
     }
@@ -79,15 +78,6 @@ export default class ScheduleWeek extends Vue {
 
   parity = this.even ? 2 : 1;
 
-  currentDay = "1";
-
-  changeDay(ex: IExercise){
-    if (ex.day != this.currentDay){
-      this.currentDay = ex.day;
-      return true;
-    } else return false;
-  }
-
 
   sortByDay(itemA: IExercise, itemB: IExercise){
     return (parseInt(itemA.day) - parseInt(itemB.day));
@@ -104,18 +94,5 @@ export default class ScheduleWeek extends Vue {
     return items;
   }
 }
-
-/*
-{{ setDaysSchedule(ex) }}
-      <div
-      v-if="changeDay(ex)"
-      >
-      _______
-      </div>
-      <schedule-day
-      :exercise="ex"
-      :parity="parity"
-      />
-*/
 
 </script>
