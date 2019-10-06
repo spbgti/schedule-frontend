@@ -1,4 +1,4 @@
-import { withKnobs, text } from '@storybook/addon-knobs';
+import { withKnobs, text, number, array } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/vue';
 
 import  SchedulePair  from '../src/components/SchedulePair.vue';
@@ -18,42 +18,25 @@ stories.addDecorator(withKnobs);
 // the component’s slot.
 stories.add('SchedulePairStorie', () => ({
   components: { SchedulePair },
-  data() {
-    return {
-    PairExample : {
-          exercise_id: 0,
-          schedule_id: "0",
-          room_id: props.room_id_prop,
-          teachers: ["teachers"],
-          name: "name",
-          type: "type",
-          pair: "0",
-          day: "day",
-          parity : "2",
-        },
-    }
-  },
   props: {
-    room_id_prop: {
-      default: text('room id', "0")
+    name : {
+      default: text('name', 'name')
+    },
+    type :{
+      default: text('type', 'type')
+    },
+    room_id: {
+      default: number('room id', 0)
+    },
+    teachers: {
+      default: array('teachers', ['teacher'])
     },
   },
   template: `<schedule-pair
-              :exercise="PairExample"
-              :parity="1"
+              :name="name"
+              :type="type"
+              :room_id="room_id"
+              :teachers="teachers"
             />`,
 }));
 
-/*
-export interface IExercise {
-    exercise_id: number;
-    schedule_id: string;
-    room_id: string;
-    teachers: string;
-    name: string;
-    type: string;
-    pair: string;
-    day: string;
-    parity: string;
-}
-*/

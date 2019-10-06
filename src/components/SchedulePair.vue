@@ -21,7 +21,7 @@
         :elevation="0"
         v-for="(teacher, index) in teachers"
         :key="index"
-      >{{ teacher }}</v-card>
+      >{{ teacher }}&#160</v-card>
     </v-row>
   </v-container>
 </template>
