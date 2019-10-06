@@ -3,9 +3,9 @@ import { storiesOf } from '@storybook/vue';
 
 import  SchedulePair  from '../src/components/SchedulePair.vue';
 
-export default { title: 'Pair' };
+export default { title: 'Pair stories' };
 
-const stories = storiesOf('Storybook Knobs', module);
+const stories = storiesOf('Pair', module);
 
 // Add the `withKnobs` decorator to add knobs support to your stories.
 // You can also configure `withKnobs` as a global decorator.
@@ -16,7 +16,7 @@ stories.addDecorator(withKnobs);
 // then pass the story's prop data to the component’s prop in
 // the template with `v-bind:` or by placing the prop within
 // the component’s slot.
-stories.add('SchedulePairStorie', () => ({
+stories.add('Pair sandbox', () => ({
   components: { SchedulePair },
   props: {
     name : {
@@ -39,4 +39,6 @@ stories.add('SchedulePairStorie', () => ({
               :teachers="teachers"
             />`,
 }));
+
+
 
