@@ -10,7 +10,6 @@
       >
         <v-card
           style="width: 100%"
-          v-if="item.parity != parity"
         >
           <v-list>
             <v-list-item>
@@ -25,8 +24,10 @@
               </v-col>
               <v-col>
                 <schedule-pair
-                  :exercise="item"
-                  :parity="parity"
+                  :name="item.name"
+                  :type="item.type != null ? item.type : ''"
+                  :room_id="item.room_id"
+                  :teachers="item.teachers"
                 />
               </v-col>
             </v-list-item>
@@ -50,9 +51,15 @@ import { IExercise } from "@/interfaces"
 })
 export default class ScheduleDay extends Vue {
   @Prop( {required: true, type: Array } ) readonly dayExercises!: IExercise[];
-  @Prop( {required: true, type: Number } ) readonly parity!: Number;
 
-  timeOfPairs = [['9:30', '11:10'], ['11:30', '13:10'], ['14:00', '15:40'], ['16:00', '17:40']];
+  timeOfPairs = [['9:30', '11:10'],
+  ['11:30', '13:10'],
+  ['14:00', '15:40'],
+  ['16:00', '17:40'],
+  ['time1', 'time2'],
+  ['time1', 'time2'],
+  ['time1', 'time2']
+  ];
 
 }
 
