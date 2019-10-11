@@ -1,19 +1,19 @@
 <template>
   <v-app>
     <v-content>
-      <Schedule_mod/>
+      <Schedule/>
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import Schedule_mod from './components/Schedule_mod.vue';
+import Schedule from './components/Schedule.vue';
 
 export default Vue.extend({
   name: 'App',
   components: {
-    Schedule_mod,
+    Schedule,
   },
   data: () => ({
     //
