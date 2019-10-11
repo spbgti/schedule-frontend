@@ -4,7 +4,7 @@ import axios from "axios";
 
 const instance = axios.create({ // здесь мы создаем отдельное его "состояние"
   baseURL: "https://spbgti-tools-schedule-staging.herokuapp.com/api",
-  timeout: 10000
+  timeout: 100000
 });
 
 export async function getGroups(): Promise<IGroup[]> {
