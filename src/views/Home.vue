@@ -1,14 +1,14 @@
 <template>
-  <Schedule_mod/>
+  <Schedule/>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import Schedule_mod from '../components/Schedule_mod.vue';
+import Schedule from '../components/Schedule.vue';
 
 export default Vue.extend({
   components: {
-    Schedule_mod,
+    Schedule,
   },
 });
 </script>
