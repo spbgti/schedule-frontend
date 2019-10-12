@@ -4,27 +4,22 @@
     Понедельник
     <schedule-day
     :dayExercises="daysSchedule[0]"
-    :parity="parity"
     />
     Вторник
     <schedule-day
     :dayExercises="daysSchedule[1]"
-    :parity="parity"
     />
     Среда
     <schedule-day
     :dayExercises="daysSchedule[2]"
-    :parity="parity"
     />
     Четверг
     <schedule-day
     :dayExercises="daysSchedule[3]"
-    :parity="parity"
     />
     Пятница
     <schedule-day
     :dayExercises="daysSchedule[4]"
-    :parity="parity"
     />
   </v-container>
 </template>
@@ -76,7 +71,8 @@ export default class ScheduleWeek extends Vue {
     }
   }
 
-  parity = this.even ? 2 : 1;
+  // this parity is anti-parity for schedule: use it line neededParity != thisParity
+  parity: string = (this.even ? 2 : 1).toString();
 
 
   sortByDay(itemA: IExercise, itemB: IExercise){
@@ -88,7 +84,13 @@ export default class ScheduleWeek extends Vue {
     } else return 0;
   }
 
+  filterByParity(items: Array<IExercise>){
+    let filtred = items.filter(item => item.parity != this.parity);
+    return filtred;
+  }
+
   orderedItems (items : Array<IExercise>) {
+    items = this.filterByParity(items);
     items.sort(this.sortByDay);
     items.sort(this.sortByPair);
     return items;

@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-content>
-      <schedule/>
+      <router-view/>
     </v-content>
   </v-app>
 </template>
