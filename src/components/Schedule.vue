@@ -60,6 +60,7 @@ import Vue from "vue";
 import * as api from '@/api';
 import { Component } from "vue-property-decorator";
 import { IGroup, ISchedule } from "@/interfaces";
+
 import ScheduleTable from '@/components/ScheduleTable.vue'
 
 @Component({
@@ -92,6 +93,7 @@ export default class GroupList extends Vue {
     },
     { text: "group id", value: "group_id" },
   ];
+
 
   public async getList() {
     this.groups = await api.getGroups();
