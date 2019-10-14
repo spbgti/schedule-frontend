@@ -103,10 +103,13 @@ export default class GroupList extends Vue {
     this.schedule = await api.getSchedule(groupId, year, semester);
   }
 
-  getGroupSchedule(){ // get schedule by click btn
+  async getGroupSchedule(){ // get schedule by click btn
     let year = (this.$refs.year_select as Vue & { initialValue: () => number }).initialValue.toString();
     let semester = (this.$refs.semester_select as Vue & { initialValue: () => number}).initialValue.toString();
-    this.getSchedule(this.selectedGroupId, year, semester);
+    await this.getSchedule(this.selectedGroupId, year, semester); // wait until function done
+
+    let route = this.$router.resolve({ name: 'Schedule', params : { id: (this.schedule[0].schedule_id).toString() } });
+    window.open(route.href, '_blank');
   };
 
   selectGroup(groupId: string, index: any){ // set id and group number by click on row

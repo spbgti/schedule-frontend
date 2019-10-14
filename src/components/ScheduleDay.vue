@@ -44,6 +44,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import SchedulePair from '@/components/SchedulePair.vue'
 import { IExercise } from "@/interfaces"
+import store from "@/store"
 
 @Component({
   name: 'ScheduleDay',
