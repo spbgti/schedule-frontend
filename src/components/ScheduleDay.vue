@@ -2,7 +2,7 @@
   <v-container>
     <v-data-iterator
       :items="dayExercises"
-      :items-per-page="6"
+      hide-default-footer
     >
     <template v-slot:default="props">
         <v-row
