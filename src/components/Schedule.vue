@@ -45,13 +45,6 @@
         </v-btn>
       </v-col>
     </v-row>
-    <div>
-      <!--data table formed in ScheduleTable component-->
-      <schedule-table
-      v-if = "schedule.length > 0"
-      :exercises="schedule[0].exercises"
-      />
-    </div>
   </v-container>
 </template>
 
@@ -61,11 +54,8 @@ import * as api from '@/api';
 import { Component } from "vue-property-decorator";
 import { IGroup, ISchedule } from "@/interfaces";
 
-import ScheduleTable from '@/components/ScheduleTable.vue'
-
 @Component({
   components: {
-    ScheduleTable,
   }
 })
 export default class GroupList extends Vue {

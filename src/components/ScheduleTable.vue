@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    Schedule for group {{ groupNum }}
     <v-row>
       <v-col>
         Четная неделя
@@ -32,6 +33,7 @@ import ScheduleWeek from '@/components/ScheduleWeek.vue'
 })
 export default class ScheduleTable extends Vue {
   @Prop( {required: true, type: Array } ) readonly exercises!: IExercise[];
+  @Prop( {required: true, type: String } ) readonly groupNum!: String;
 
     scheduleHeaders = [
     { text: "exercises id",

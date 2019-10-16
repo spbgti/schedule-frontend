@@ -25,3 +25,8 @@ export async function getSchedule(groupId: string, year: string, semester: strin
 export async function getScheduleById(scheduleId: string): Promise<ISchedule> {
   return (await instance.get("/schedules/"+ scheduleId )).data as ISchedule;
 }
+
+export async function getGroupNumById(grioupId: string): Promise<IGroup> {
+  return (await instance.get("/groups/"+ grioupId )).data as IGroup;
+}
+

@@ -2,6 +2,7 @@
   <schedule-table
     v-if = "Object.entries(schedule).length != 0"
     :exercises="schedule.exercises"
+    :groupNum="group.number"
   />
 </template>
 
@@ -22,16 +23,21 @@ export default Vue.extend({
 
   data(){
     return {
-      schedule : {}
+      schedule : {},
+      group : {},
     }
   },
   methods: {
     getSchedule : async function () {
       this.schedule = await api.getScheduleById( this.$route.params.id );
-    }
+    },
+    getGroupNum : async function () {
+      this.group = await api.getGroupNumById(this.schedule.group_id); // Property 'group_id' does not exist on type '{}' | How to use intf as type?
+    },
   },
   async created(){
     await this.getSchedule();
+    await this.getGroupNum();
   }
 
 });

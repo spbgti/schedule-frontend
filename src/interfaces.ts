@@ -22,3 +22,4 @@ export interface ISchedule {
     semester: string;
     exercises: IExercise;
 }
+
