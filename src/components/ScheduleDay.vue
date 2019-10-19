@@ -1,42 +1,38 @@
 <template>
   <v-container>
-    <v-data-iterator
-      :items="dayExercises"
-      hide-default-footer
+    <v-card
     >
-    <template v-slot:default="props">
-        <v-row
-          v-for="(item, index) in props.items"
-          :key="index" 
+      <v-row
+        v-for="(item, index) in dayExercises"
+        :key="index" 
+      >
+        <v-card
+          style="width: 100%"
         >
-          <v-card
-            style="width: 100%"
-          >
-            <v-list>
-              <v-list-item>
-                <!--md "auto" makes variable size with contetn-->
-                <v-col
-                  md="auto"
-                  class="text-center"
-                >
-                  {{ timeOfPairs[index][0] }}<br/>
-                  -<br/>
-                  {{ timeOfPairs[index][1] }}<br/>
-                </v-col>
-                <v-col>
-                  <schedule-pair
-                  :name="item.name"
-                  :type="item.type != null ? item.type : ''"
-                  :room_id="item.room_id"
-                  :teachers="item.teachers"
-                />
-                </v-col>
-              </v-list-item>
-            </v-list>
-          </v-card>
-        </v-row>
-      </template>
-    </v-data-iterator>
+          <v-list>
+            <v-list-item>
+              <!--md "auto" makes variable size with contetn-->
+              <v-col
+                md="auto"
+                class="text-center"
+              >
+                {{ timeOfPairs[index][0] }}<br/>
+                -<br/>
+                {{ timeOfPairs[index][1] }}<br/>
+              </v-col>
+              <v-col>
+                <schedule-pair
+                :name="item.name"
+                :type="item.type != null ? item.type : ''"
+                :room_id="item.room_id"
+                :teachers="item.teachers"
+              />
+              </v-col>
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </v-row>
+    </v-card>
   </v-container>
 </template>
 <script lang="ts">

@@ -3,17 +3,8 @@
     Schedule for group {{ groupNum }}
     <v-row>
       <v-col>
-        Четная неделя
         <schedule-week
         :exercises="exercises"
-        :even="true"
-        />
-      </v-col>
-      <v-col>
-        Нечетная неделя
-        <schedule-week
-        :exercises="exercises"
-        :even="false"
         />
       </v-col>
     </v-row>

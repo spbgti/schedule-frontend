@@ -1,26 +1,82 @@
 <template>
-  <v-container>
+  <v-container
+  >
     <!--exercises receives from parent-->
     Понедельник
-    <schedule-day
-    :dayExercises="daysSchedule[0]"
-    />
+    <v-row
+      class="d-flex align-stretch"
+    >
+      <v-col>
+        <schedule-day
+        :dayExercises="evenDaysSchedule[0]"
+        />
+      </v-col>
+      <v-col>
+        <schedule-day
+        :dayExercises="oddDaysSchedule[0]"
+        />
+      </v-col>
+    </v-row>
     Вторник
-    <schedule-day
-    :dayExercises="daysSchedule[1]"
-    />
+    <v-row
+      class="d-flex align-stretch"
+    >
+      <v-col>
+        <schedule-day
+        :dayExercises="evenDaysSchedule[1]"
+        />
+      </v-col>
+      <v-col>
+        <schedule-day
+        :dayExercises="oddDaysSchedule[1]"
+        />
+      </v-col>
+    </v-row>
     Среда
-    <schedule-day
-    :dayExercises="daysSchedule[2]"
-    />
+    <v-row
+      class="d-flex align-stretch"
+    >
+      <v-col>
+        <schedule-day
+        :dayExercises="evenDaysSchedule[2]"
+        />
+      </v-col>
+      <v-col>
+        <schedule-day
+        :dayExercises="oddDaysSchedule[2]"
+        />
+      </v-col>
+    </v-row>
     Четверг
-    <schedule-day
-    :dayExercises="daysSchedule[3]"
-    />
+    <v-row
+      class="d-flex align-stretch"
+    >
+      <v-col>
+        <schedule-day
+        :dayExercises="evenDaysSchedule[3]"
+        />
+      </v-col>
+      <v-col>
+        <schedule-day
+        :dayExercises="oddDaysSchedule[3]"
+        />
+      </v-col>
+    </v-row>
     Пятница
-    <schedule-day
-    :dayExercises="daysSchedule[4]"
-    />
+    <v-row
+      class="d-flex align-stretch"
+    >
+      <v-col>
+        <schedule-day
+        :dayExercises="evenDaysSchedule[4]"
+        />
+      </v-col>
+      <v-col>
+        <schedule-day
+        :dayExercises="oddDaysSchedule[4]"
+        />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <script lang="ts">
@@ -37,42 +93,71 @@ import ScheduleDay from '@/components/ScheduleDay.vue'
 })
 export default class ScheduleWeek extends Vue {
   @Prop( {required: true, type: Array } ) readonly exercises!: IExercise[];
-  @Prop( {required: true, type: Boolean } ) readonly even!: Boolean;
   
 
   created(){
+    this.parity = "2";
     let orderedExercises = this.orderedItems(this.exercises)
     for (let i = 0; i != orderedExercises.length; ++i){
-      this.setDaysSchedule(orderedExercises[i]);
+      this.setDaysSchedule(orderedExercises[i], "!2");
+    }
+    this.parity = "1";
+    orderedExercises = this.orderedItems(this.exercises)
+    for (let i = 0; i != orderedExercises.length; ++i){
+      this.setDaysSchedule(orderedExercises[i], "!1");
     }
   };
 
-  daysSchedule: Array<Array<IExercise>> = [[],[],[],[],[]];
+  evenDaysSchedule: Array<Array<IExercise>> = [[],[],[],[],[]]; // chetn
+  oddDaysSchedule: Array<Array<IExercise>> = [[],[],[],[],[]];
 
   counter = 0;
 
-  setDaysSchedule(exercise: IExercise){
-    switch(exercise.day){
-      case "1":
-        this.daysSchedule[0].push(exercise);
+  setDaysSchedule(exercise: IExercise, parity: string) {
+    switch (parity) {
+      case "!2":
+        switch(exercise.day) {
+          case "1":
+            this.evenDaysSchedule[0].push(exercise);
+            break;
+          case "2":
+            this.evenDaysSchedule[1].push(exercise);
+            break;
+          case "3":
+            this.evenDaysSchedule[2].push(exercise);
+            break;
+          case "4":
+            this.evenDaysSchedule[3].push(exercise);
+            break;
+          case "5":
+            this.evenDaysSchedule[4].push(exercise);
+            break;
+        }
         break;
-      case "2":
-        this.daysSchedule[1].push(exercise);
-        break;
-      case "3":
-        this.daysSchedule[2].push(exercise);
-        break;
-      case "4":
-        this.daysSchedule[3].push(exercise);
-        break;
-      case "5":
-        this.daysSchedule[4].push(exercise);
+      case "!1":
+        switch(exercise.day) {
+            case "1":
+              this.oddDaysSchedule[0].push(exercise);
+              break;
+            case "2":
+              this.oddDaysSchedule[1].push(exercise);
+              break;
+            case "3":
+              this.oddDaysSchedule[2].push(exercise);
+              break;
+            case "4":
+              this.oddDaysSchedule[3].push(exercise);
+              break;
+            case "5":
+              this.oddDaysSchedule[4].push(exercise);
+              break;
+        }
         break;
     }
   }
 
   // this parity is anti-parity for schedule: use it line neededParity != thisParity
-  parity: string = (this.even ? 2 : 1).toString();
+  parity: string = "";
 
 
   sortByDay(itemA: IExercise, itemB: IExercise){
