@@ -21,7 +21,7 @@
                 {{ timeOfPairs[index][1] }}<br/>
               </v-col>
               <v-col>
-                <schedule-pair
+                <schedule-pair-input
                 :name="item.name"
                 :type="item.type != null ? item.type : ''"
                 :room_id="item.room_id"
@@ -39,6 +39,7 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import SchedulePair from '@/components/SchedulePair.vue'
+import SchedulePairInput from '@/components/SchedulePairInput.vue'
 import { IExercise } from "@/interfaces"
 import store from "@/store"
 
@@ -46,6 +47,7 @@ import store from "@/store"
   name: 'ScheduleDay',
   components: {
     SchedulePair,
+    SchedulePairInput,
   }
 })
 export default class ScheduleDay extends Vue {
