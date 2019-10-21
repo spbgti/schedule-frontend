@@ -20,11 +20,11 @@
         >
         <template v-slot:item="props">
           <tr
-          @click="selectGroup(props.item.group_id, props.item.number, props)"
-          :style="[selectedNumber === props.item.group_id ? {'background': 'rgba(68, 219, 252, 0.2)'} : {'background': '#FFF'}]"
+            @click="selectGroup(props.item.group_id, props.item.number, props)"
+            :style="[selectedNumber === props.item.group_id ? {'background': 'rgba(68, 219, 252, 0.2)'} : {'background': '#FFF'}]"
           >
-          <td>{{ props.item.number }}</td>
-          <td>{{ props.item.group_id }}</td>
+            <td>{{ props.item.number }}</td>
+            <td>{{ props.item.group_id }}</td>
           </tr>
         </template>
         </v-data-table>
@@ -54,10 +54,7 @@ import * as api from '@/api';
 import { Component } from "vue-property-decorator";
 import { IGroup, ISchedule } from "@/interfaces";
 
-@Component({
-  components: {
-  }
-})
+@Component
 export default class GroupList extends Vue {
 
   groups: Array<IGroup> = [];
@@ -91,7 +88,7 @@ export default class GroupList extends Vue {
   
   public async getSchedule(groupId: string, year: string, semester: string) { // call last
     this.schedule = await api.getSchedule(groupId, year, semester);
-  }
+  };
 
   async getGroupSchedule(){ // get schedule by click btn
     let year = (this.$refs.year_select as Vue & { initialValue: () => number }).initialValue.toString();

@@ -96,12 +96,12 @@ export default class ScheduleWeek extends Vue {
   
 
   created(){
-    this.parity = "2";
+    this.excludedParity = "2";
     let orderedExercises = this.orderedItems(this.exercises)
     for (let i = 0; i != orderedExercises.length; ++i){
       this.setDaysSchedule(orderedExercises[i], "!2");
     }
-    this.parity = "1";
+    this.excludedParity = "1";
     orderedExercises = this.orderedItems(this.exercises)
     for (let i = 0; i != orderedExercises.length; ++i){
       this.setDaysSchedule(orderedExercises[i], "!1");
@@ -157,7 +157,7 @@ export default class ScheduleWeek extends Vue {
   }
 
   // this parity is anti-parity for schedule: use it line neededParity != thisParity
-  parity: string = "";
+  excludedParity: string = "";
 
 
   sortByDay(itemA: IExercise, itemB: IExercise){
@@ -170,11 +170,11 @@ export default class ScheduleWeek extends Vue {
   }
 
   filterByParity(items: Array<IExercise>){
-    let filtred = items.filter(item => item.parity != this.parity);
+    let filtred = items.filter(item => item.parity != this.excludedParity);
     return filtred;
   }
 
-  orderedItems (items : Array<IExercise>) {
+  orderedItems (items: Array<IExercise>) {
     items = this.filterByParity(items);
     items.sort(this.sortByDay);
     items.sort(this.sortByPair);

@@ -1,6 +1,6 @@
 <template>
   <schedule-table
-    v-if = "Object.entries(schedule).length != 0"
+    v-if = "rendered"
     :exercises="schedule.exercises"
     :groupNum="group.number"
   />
@@ -12,33 +12,34 @@ import store from "@/store"
 import Vue from 'vue';
 import ScheduleTable from '../components/ScheduleTable.vue';
 import Component from 'vue-class-component';
-import { ISchedule }  from "@/interfaces";
+import { ISchedule, IGroup }  from "@/interfaces";
 import * as api from '@/api';
 
-
-export default Vue.extend({
+@Component({
+  name: 'SchedulePage',
   components: {
     ScheduleTable,
-  },
+  }
+})
+export default class SchedulePage extends Vue {
 
-  data(){
-    return {
-      schedule : {},
-      group : {},
-    }
-  },
-  methods: {
-    getSchedule : async function () {
-      this.schedule = await api.getScheduleById( this.$route.params.id );
-    },
-    getGroupNum : async function () {
-      this.group = await api.getGroupNumById(this.schedule.group_id); // Property 'group_id' does not exist on type '{}' | How to use intf as type?
-    },
-  },
+  schedule!: ISchedule;
+  group!: IGroup;
+  rendered: boolean = false;
+
+  async getSchedule(){
+    this.schedule = await api.getScheduleById(this.$route.params.id);
+  }
+
+  async getGroupNum(){
+    this.group = await api.getGroupNumById(this.schedule.group_id);
+  }
+
   async created(){
     await this.getSchedule();
     await this.getGroupNum();
+    this.rendered = true;
   }
 
-});
+}
 </script>

@@ -51,12 +51,13 @@ import store from "@/store"
 export default class ScheduleDay extends Vue {
   @Prop( {required: true, type: Array } ) readonly dayExercises!: IExercise[];
 
-  timeOfPairs = [['9:30', '11:10'],
-  ['11:30', '13:10'],
-  ['14:00', '15:40'],
-  ['16:00', '17:40'],
-  ['18:00', '19:40'],
-  ['time1', 'time2'],
+  timeOfPairs = [
+    ['9:30', '11:10'],
+    ['11:30', '13:10'],
+    ['14:00', '15:40'],
+    ['16:00', '17:40'],
+    ['18:00', '19:40'],
+    ['time1', 'time2'],
   ];
 
 }
