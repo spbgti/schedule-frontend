@@ -114,44 +114,26 @@ export default class ScheduleWeek extends Vue {
   counter = 0;
 
   setDaysSchedule(exercise: IExercise, parity: string) {
-    switch (parity) {
+    
+    let daysShedule : Array<Array<IExercise>> = [[],[],[],[],[]];
+    switch(parity){
       case "!2":
-        switch(exercise.day) {
-          case "1":
-            this.evenDaysSchedule[0].push(exercise);
-            break;
-          case "2":
-            this.evenDaysSchedule[1].push(exercise);
-            break;
-          case "3":
-            this.evenDaysSchedule[2].push(exercise);
-            break;
-          case "4":
-            this.evenDaysSchedule[3].push(exercise);
-            break;
-          case "5":
-            this.evenDaysSchedule[4].push(exercise);
-            break;
-        }
+        daysShedule = this.evenDaysSchedule;
         break;
       case "!1":
-        switch(exercise.day) {
-            case "1":
-              this.oddDaysSchedule[0].push(exercise);
-              break;
-            case "2":
-              this.oddDaysSchedule[1].push(exercise);
-              break;
-            case "3":
-              this.oddDaysSchedule[2].push(exercise);
-              break;
-            case "4":
-              this.oddDaysSchedule[3].push(exercise);
-              break;
-            case "5":
-              this.oddDaysSchedule[4].push(exercise);
-              break;
-        }
+        daysShedule = this.oddDaysSchedule;
+        break;
+    }
+    let dayIdx = parseInt(exercise.day) - 1;
+    if (daysShedule && dayIdx >= 0 && dayIdx <= 5){
+      daysShedule[dayIdx].push(exercise)
+    }
+    switch(parity){
+      case "!2":
+        this.evenDaysSchedule.push(daysShedule[0]);
+        break;
+      case "!1":
+        this.oddDaysSchedule.push(daysShedule[0]);
         break;
     }
   }
