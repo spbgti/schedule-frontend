@@ -8,12 +8,12 @@
     >
       <v-col>
         <schedule-day
-        :dayExercises="evenDaysSchedule[0]"
+        :dayExercises="evenDaysSchedule['monday']"
         />
       </v-col>
       <v-col>
         <schedule-day
-        :dayExercises="oddDaysSchedule[0]"
+        :dayExercises="oddDaysSchedule['monday']"
         />
       </v-col>
     </v-row>
@@ -23,12 +23,12 @@
     >
       <v-col>
         <schedule-day
-        :dayExercises="evenDaysSchedule[1]"
+        :dayExercises="evenDaysSchedule['tuesday']"
         />
       </v-col>
       <v-col>
         <schedule-day
-        :dayExercises="oddDaysSchedule[1]"
+        :dayExercises="oddDaysSchedule['tuesday']"
         />
       </v-col>
     </v-row>
@@ -38,12 +38,12 @@
     >
       <v-col>
         <schedule-day
-        :dayExercises="evenDaysSchedule[2]"
+        :dayExercises="evenDaysSchedule['wednesday']"
         />
       </v-col>
       <v-col>
         <schedule-day
-        :dayExercises="oddDaysSchedule[2]"
+        :dayExercises="oddDaysSchedule['wednesday']"
         />
       </v-col>
     </v-row>
@@ -53,12 +53,12 @@
     >
       <v-col>
         <schedule-day
-        :dayExercises="evenDaysSchedule[3]"
+        :dayExercises="evenDaysSchedule['thursday']"
         />
       </v-col>
       <v-col>
         <schedule-day
-        :dayExercises="oddDaysSchedule[3]"
+        :dayExercises="oddDaysSchedule['thursday']"
         />
       </v-col>
     </v-row>
@@ -68,12 +68,12 @@
     >
       <v-col>
         <schedule-day
-        :dayExercises="evenDaysSchedule[4]"
+        :dayExercises="evenDaysSchedule['friday']"
         />
       </v-col>
       <v-col>
         <schedule-day
-        :dayExercises="oddDaysSchedule[4]"
+        :dayExercises="oddDaysSchedule['friday']"
         />
       </v-col>
     </v-row>
@@ -108,14 +108,14 @@ export default class ScheduleWeek extends Vue {
     }
   };
 
-  evenDaysSchedule: Array<Array<IExercise>> = [[],[],[],[],[]]; // chetn
-  oddDaysSchedule: Array<Array<IExercise>> = [[],[],[],[],[]];
-
+  evenDaysSchedule: {[day: string]: Array<IExercise>} = {'monday': [], 'tuesday': [], 'wednesday': [], 'thursday': [],'friday': []}; // chetn
+  oddDaysSchedule: {[day: string]: Array<IExercise>} = {'monday': [], 'tuesday': [], 'wednesday': [], 'thursday': [],'friday': []}; // словаря (Map/object) с полями-номерами
+  daysStringByNumber :Array<string> = ['monday', 'tuesday', 'wednesday', 'thursday','friday'];
   counter = 0;
 
   setDaysSchedule(exercise: IExercise, parity: string) {
     
-    let daysShedule : Array<Array<IExercise>> = [[],[],[],[],[]];
+    let daysShedule : {[day: string]: Array<IExercise>} = {'monday': [], 'tuesday': [], 'wednesday': [], 'thursday': [],'friday': []};
     switch(parity){
       case "!2":
         daysShedule = this.evenDaysSchedule;
@@ -126,15 +126,7 @@ export default class ScheduleWeek extends Vue {
     }
     let dayIdx = parseInt(exercise.day) - 1;
     if (daysShedule && dayIdx >= 0 && dayIdx <= 5){
-      daysShedule[dayIdx].push(exercise)
-    }
-    switch(parity){
-      case "!2":
-        this.evenDaysSchedule.push(daysShedule[0]);
-        break;
-      case "!1":
-        this.oddDaysSchedule.push(daysShedule[0]);
-        break;
+      daysShedule[this.daysStringByNumber[dayIdx]].push(exercise)
     }
   }
 
