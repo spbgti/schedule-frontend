@@ -1,3 +1,4 @@
+
 <template>
   <v-container>
     <v-row>
@@ -19,11 +20,11 @@
         >
         <template v-slot:item="props">
           <tr
-          @click="selectGroup(props.item.group_id, props.item.number, props)"
-          :style="[selectedNumber === props.item.group_id ? {'background': 'rgba(68, 219, 252, 0.2)'} : {'background': '#FFF'}]"
+            @click="selectGroup(props.item.group_id, props.item.number, props)"
+            :style="[selectedNumber === props.item.group_id ? {'background': 'rgba(68, 219, 252, 0.2)'} : {'background': '#FFF'}]"
           >
-          <td>{{ props.item.number }}</td>
-          <td>{{ props.item.group_id }}</td>
+            <td>{{ props.item.number }}</td>
+            <td>{{ props.item.group_id }}</td>
           </tr>
         </template>
         </v-data-table>
@@ -44,29 +45,6 @@
         </v-btn>
       </v-col>
     </v-row>
-    Чтобы сортировать полученное расписание, выполни сортировку по id 
-    <div v-for="ex in schedule" v-bind:key="ex">
-      <v-data-table
-            :headers="scheduleHeaders"
-            :items="ex.exercises"
-            :items-per-page="15"
-            item-key="items.key"
-          >
-          <template v-slot:item="props">
-            <tr>
-            <td>{{ props.item.exercise_id}}</td>
-            <td>{{ props.item.schedule_id }}</td>
-            <td>{{ props.item.room_id }}</td>
-            <td>{{ props.item.teachers }}</td>
-            <td>{{ props.item.name }}</td>
-            <td>{{ props.item.type }}</td>
-            <td>{{ props.item.pair }}</td>
-            <td>{{ props.item.day }}</td>
-            <td>{{ props.item.parity }}</td>
-            </tr>
-          </template>
-      </v-data-table>
-    </div>
   </v-container>
 </template>
 
@@ -78,6 +56,7 @@ import { IGroup, ISchedule } from "@/interfaces";
 
 @Component
 export default class GroupList extends Vue {
+
   groups: Array<IGroup> = [];
 
   selectedNumber: number = 0;
@@ -102,26 +81,6 @@ export default class GroupList extends Vue {
     { text: "group id", value: "group_id" },
   ];
 
-  scheduleHeaders = [
-    { text: "exercises id",
-      value: "exercise_id", },
-    { text: "schedule id",
-      value: "schedule_id", },
-    { text: "room id",
-      value: "room_id", },
-    { text: "teachers",
-      value: "teachers", },
-    { text: "name",
-      value: "name", },
-    { text: "type",
-      value: "type", },
-    { text: "pair",
-      value: "pair", },
-    { text: "day",
-      value: "day", },
-    { text: "parity",
-      value: "parity", },
-  ];
 
   public async getList() {
     this.groups = await api.getGroups();
@@ -129,12 +88,15 @@ export default class GroupList extends Vue {
   
   public async getSchedule(groupId: string, year: string, semester: string) { // call last
     this.schedule = await api.getSchedule(groupId, year, semester);
-  }
+  };
 
-  getGroupSchedule(){ // get schedule by click btn
+  async getGroupSchedule(){ // get schedule by click btn
     let year = (this.$refs.year_select as Vue & { initialValue: () => number }).initialValue.toString();
     let semester = (this.$refs.semester_select as Vue & { initialValue: () => number}).initialValue.toString();
-    this.getSchedule(this.selectedGroupId, year, semester);
+    await this.getSchedule(this.selectedGroupId, year, semester); // wait until function done
+
+    let route = this.$router.resolve({ name: 'Schedule', params : { id: (this.schedule[0].schedule_id).toString() } });
+    window.open(route.href, '_blank');
   };
 
   selectGroup(groupId: string, index: any){ // set id and group number by click on row
