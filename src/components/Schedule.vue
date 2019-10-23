@@ -43,6 +43,9 @@
         <v-btn @click="getGroupSchedule()">
           Get schedules
         </v-btn>
+        <v-btn @click="edit()">
+          Get schedules for edit
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -64,6 +67,7 @@ export default class GroupList extends Vue {
   search: string = "";
 
   selectedGroupId!: string;
+  editSchedule : boolean = false;
 
   semesters = [1, 2]; // year-like semesters
 
@@ -81,6 +85,10 @@ export default class GroupList extends Vue {
     { text: "group id", value: "group_id" },
   ];
 
+  edit(){
+    this.editSchedule = true;
+    this.getGroupSchedule();
+  }
 
   public async getList() {
     this.groups = await api.getGroups();
@@ -94,8 +102,8 @@ export default class GroupList extends Vue {
     let year = (this.$refs.year_select as Vue & { initialValue: () => number }).initialValue.toString();
     let semester = (this.$refs.semester_select as Vue & { initialValue: () => number}).initialValue.toString();
     await this.getSchedule(this.selectedGroupId, year, semester); // wait until function done
-
-    let route = this.$router.resolve({ name: 'Schedule', params : { id: (this.schedule[0].schedule_id).toString() } });
+    let showType = this.editSchedule ? 'edit' : 'display';
+    let route = this.$router.resolve({ name: 'Schedule', params : { id: (this.schedule[0].schedule_id).toString(), type: showType  } });
     window.open(route.href, '_blank');
   };
 

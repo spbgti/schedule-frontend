@@ -24,7 +24,7 @@ export default new Router({
         import(/* webpackChunkName: "about" */ "./views/About.vue")
     },
     {
-      path: "/schedule/:id",
+      path: "/schedule/:id/:type",
       name: "Schedule",
       component: SchedulePage,
     },

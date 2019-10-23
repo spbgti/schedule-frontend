@@ -3,6 +3,7 @@
     v-if = "rendered"
     :exercises="schedule.exercises"
     :groupNum="group.number"
+    :type="this.$route.params.type"
   />
 </template>
 

@@ -21,12 +21,18 @@
                 {{ timeOfPairs[index][1] }}<br/>
               </v-col>
               <v-col>
-                <schedule-pair-input
+                <schedule-pair
                 :name="item.name"
                 :type="item.type != null ? item.type : ''"
                 :room_id="item.room_id"
                 :teachers="item.teachers"
               />
+              </v-col>
+              <v-col
+              v-if="type=='edit'"
+                md="auto"
+              >
+                <v-btn>edit</v-btn>
               </v-col>
             </v-list-item>
           </v-list>
@@ -52,6 +58,7 @@ import store from "@/store"
 })
 export default class ScheduleDay extends Vue {
   @Prop( {required: true, type: Array } ) readonly dayExercises!: IExercise[];
+  @Prop( {required: true, type: String } ) readonly type!: String;
 
   timeOfPairs = [
     ['9:30', '11:10'],
