@@ -4,20 +4,24 @@
       <v-text-field
         v-model="pairTitle"
         label="pair title"
+        :placeholder="name"
       ></v-text-field>
       <v-text-field
         v-model="pairType"
         label="pair type"
+        :placeholder="type"
       ></v-text-field>
     </v-row>
     <v-row>
       <v-text-field
         v-model="pairRoom"
         label="room"
+        :placeholder="room_id"
       ></v-text-field>
       <v-text-field
         v-model="pairTeachers"
         label="teachers(separate by ',')"
+        :placeholder="teachers"
       ></v-text-field>
     </v-row>
     <v-btn>Send to server</v-btn>
