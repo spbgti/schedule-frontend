@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import SchedulePage from "./views/SchedulePage.vue"
+import ScheduleEdit from "./views/ScheduleEdit.vue"
 
 Vue.use(Router);
 
@@ -27,6 +28,11 @@ export default new Router({
       path: "/schedule/:id/:type",
       name: "Schedule",
       component: SchedulePage,
+    },
+    {
+      path: "/exercises/:ex_id/edit",
+      name: "ScheduleEdit",
+      component: ScheduleEdit,
     },
   ]
 });

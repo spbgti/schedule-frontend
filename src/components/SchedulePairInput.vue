@@ -1,14 +1,14 @@
 <template>
   <v-container>
     <v-row>
-        <v-text-field
-          v-model="pairTitle"
-          label="pair title"
-        ></v-text-field>
-        <v-text-field
-          v-model="pairType"
-          label="pair type"
-        ></v-text-field>
+      <v-text-field
+        v-model="pairTitle"
+        label="pair title"
+      ></v-text-field>
+      <v-text-field
+        v-model="pairType"
+        label="pair type"
+      ></v-text-field>
     </v-row>
     <v-row>
       <v-text-field

@@ -1,4 +1,4 @@
-import { IGroup, ISchedule } from "@/interfaces";
+import { IGroup, ISchedule, IExercise } from "@/interfaces";
 
 import axios from "axios";
 
@@ -24,6 +24,10 @@ export async function getSchedule(groupId: string, year: string, semester: strin
 
 export async function getScheduleById(scheduleId: string): Promise<ISchedule> {
   return (await instance.get("/schedules/"+ scheduleId )).data as ISchedule;
+}
+
+export async function getExerciseById(exerciseId: string): Promise<IExercise> {
+  return (await instance.get("/exercises/"+ exerciseId )).data as IExercise;
 }
 
 export async function getGroupNumById(grioupId: string): Promise<IGroup> {

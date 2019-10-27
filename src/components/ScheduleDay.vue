@@ -22,17 +22,19 @@
               </v-col>
               <v-col>
                 <schedule-pair
-                :name="item.name"
-                :type="item.type != null ? item.type : ''"
-                :room_id="item.room_id"
-                :teachers="item.teachers"
-              />
+                  :name="item.name"
+                  :type="item.type != null ? item.type : ''"
+                  :room_id="item.room_id"
+                  :teachers="item.teachers"
+                />
               </v-col>
               <v-col
               v-if="type=='edit'"
                 md="auto"
               >
-                <v-btn>edit</v-btn>
+                <v-btn @click="openEditTab(item.exercise_id)">
+                  edit
+                </v-btn>
               </v-col>
             </v-list-item>
           </v-list>
@@ -59,6 +61,11 @@ import store from "@/store"
 export default class ScheduleDay extends Vue {
   @Prop( {required: true, type: Array } ) readonly dayExercises!: IExercise[];
   @Prop( {required: true, type: String } ) readonly type!: String;
+
+  openEditTab(exercise_id: string){
+    let route = this.$router.resolve({ name: 'ScheduleEdit', params : { ex_id: exercise_id }});
+    window.open(route.href, '_blank');
+  }
 
   timeOfPairs = [
     ['9:30', '11:10'],
