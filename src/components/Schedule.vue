@@ -105,6 +105,7 @@ export default class GroupList extends Vue {
     let showType = this.editSchedule ? 'edit' : 'display';
     let route = this.$router.resolve({ name: 'Schedule', params : { id: (this.schedule[0].schedule_id).toString(), type: showType  } });
     window.open(route.href, '_blank');
+    this.editSchedule = false;
   };
 
   selectGroup(groupId: string, index: any){ // set id and group number by click on row
