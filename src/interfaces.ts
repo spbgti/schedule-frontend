@@ -1,10 +1,10 @@
 export interface IGroup {
-    group_id: number;
+    group_id: Number;
     number: string;
 }
 
 export interface IExercise {
-    exercise_id: number;
+    exercise_id: Number;
     schedule_id: string;
     room_id: string;
     teachers: string;
@@ -16,7 +16,7 @@ export interface IExercise {
 }
 
 export interface ISchedule {
-    schedule_id: number;
+    schedule_id: Number;
     group_id: string;
     year: string;
     semester: string;

@@ -5,6 +5,8 @@
     :type="exercise.type != null ? exercise.type : ''"
     :room_id="exercise.room_id"
     :teachers="exercise.teachers"
+    :id="exercise.exercise_id"
+    :exercise="exercise"
   />
 </template>
 

@@ -34,3 +34,13 @@ export async function getGroupNumById(grioupId: string): Promise<IGroup> {
   return (await instance.get("/groups/"+ grioupId )).data as IGroup;
 }
 
+export function putExerciseById(id: string, exercise: IExercise){
+  instance.put("/exercises/" + id, exercise)
+  .then(function(response){
+    console.log('response:' + response.statusText);
+  })
+  .catch(function (error){
+    console.log ('error:' + error);
+  });
+}
+
