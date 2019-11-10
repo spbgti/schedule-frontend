@@ -15,14 +15,14 @@
     </v-row>
     <v-row>
       <v-text-field
-        v-model="pairRoom"
+        v-model="pairRoomId"
         label="room"
-        :placeholder="room_id"
+        :placeholder="pairRoomIdPlaceholder"
       ></v-text-field>
       <v-text-field
         v-model="pairTeachers"
         label="teachers(separate by ',')"
-        :placeholder="teachers"
+        :placeholder="pairTeachersString"
       ></v-text-field>
     </v-row>
     <v-btn
@@ -47,10 +47,13 @@ export default class SchedulePair extends Vue {
 
   pairTitle: string = '';
   pairType: string = '';
-  pairRoom!: number;
+  pairRoomId: string = '';
   pairTeachers: string = '';
 
-  separateToList(str: string) {
+  pairRoomIdPlaceholder: string = this.room_id.toString();
+  pairTeachersString: string = this.teachers.join();
+
+  separateToList(str: string) { // separate teachers string to array by "," delimeter
     let splited = str.replace(/,/g, '');
     console.log('replaced:' + splited);
     let splitedStr = splited.split(' ');
@@ -58,12 +61,12 @@ export default class SchedulePair extends Vue {
   }
 
   updateExercise(){
-    console.log('update request: ' + this.pairTitle + ' ' + this.pairType + ' ' + this.pairRoom + ' ' + this.separateToList(this.pairTeachers));
-    if (this.pairTitle != '' && this.pairType != '' && this.pairRoom != null && this.pairTeachers != ''){
+    console.log('update request: ' + this.pairTitle + ' ' + this.pairType + ' ' + this.pairRoomId.toString() + ' ' + this.separateToList(this.pairTeachers));
+    if (this.pairTitle != '' && this.pairType != '' && this.pairRoomId != '' && this.pairTeachers != ''){
       let changedEercise : IExercise = {
         exercise_id: this.id,
         schedule_id: this.exercise.schedule_id,
-        room_id: this.pairRoom,
+        room_id: parseInt(this.pairRoomId),
         teachers: this.separateToList(this.pairTeachers),
         name: this.pairTitle,
         type: this.pairType,

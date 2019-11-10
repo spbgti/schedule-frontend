@@ -36,7 +36,7 @@ export default class ScheduleEdit extends Vue {
 
   async created(){
     await this.getCurrentExercise();
-    this.rendered = true;
+    this.rendered = true; // rendered only when get current exercise
   }
 }
 </script>
