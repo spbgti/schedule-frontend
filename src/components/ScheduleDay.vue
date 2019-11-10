@@ -60,7 +60,7 @@ import store from "@/store"
 })
 export default class ScheduleDay extends Vue {
   @Prop( {required: true, type: Array } ) readonly dayExercises!: IExercise[];
-  @Prop( {required: true, type: String } ) readonly type!: String;
+  @Prop( {required: true, type: String } ) readonly type!: string;
 
   openEditTab(exercise_id: string){
     let route = this.$router.resolve({ name: 'ScheduleEdit', params : { ex_id: exercise_id }});

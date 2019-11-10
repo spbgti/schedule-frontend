@@ -39,10 +39,10 @@ import { Component, Prop } from "vue-property-decorator";
 import { IExercise } from "@/interfaces"
 @Component
 export default class SchedulePair extends Vue {
-  @Prop( {required: true, type: String } ) readonly name!: String;
-  @Prop( {required: true, type: String } ) readonly type!: String;
-  @Prop( {required: true, type: Number } ) readonly room_id!: Number;
-  @Prop( {required: true, type: Array } ) readonly teachers!: Array<String>;
+  @Prop( {required: true, type: String } ) readonly name!: string;
+  @Prop( {required: true, type: String } ) readonly type!: string;
+  @Prop( {required: true, type: Number } ) readonly room_id!: number;
+  @Prop( {required: true, type: Array } ) readonly teachers!: Array<string>;
   
 }
 </script>

@@ -103,7 +103,7 @@ import ScheduleDay from '@/components/ScheduleDay.vue'
 })
 export default class ScheduleWeek extends Vue {
   @Prop( {required: true, type: Array } ) readonly exercises!: IExercise[];
-  @Prop( {required: true, type: String } ) readonly type!: String;
+  @Prop( {required: true, type: String } ) readonly type!: string;
   
 
   created(){

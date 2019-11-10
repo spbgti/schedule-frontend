@@ -40,14 +40,14 @@ import * as api from '@/api';
 export default class SchedulePair extends Vue {
   @Prop( {required: true, type: String } ) readonly name!: string;
   @Prop( {required: true, type: String } ) readonly type!: string;
-  @Prop( {required: true, type: Number } ) readonly room_id!: Number;
-  @Prop( {required: true, type: Array } ) readonly teachers!: Array<String>;
-  @Prop( {required: true, type: Number } ) readonly id!: Number;
+  @Prop( {required: true, type: Number } ) readonly room_id!: number;
+  @Prop( {required: true, type: Array } ) readonly teachers!: Array<string>;
+  @Prop( {required: true, type: Number } ) readonly id!: number;
   @Prop( {required: true, type: Object } ) readonly exercise!: IExercise;
 
   pairTitle: string = '';
   pairType: string = '';
-  pairRoom!: Number;
+  pairRoom!: number;
   pairTeachers: string = '';
 
   separateToList(str: string) {
