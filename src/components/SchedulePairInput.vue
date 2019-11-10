@@ -59,7 +59,7 @@ export default class SchedulePair extends Vue {
   pairTeachersString: string = this.teachers.join();
 
   separateToList(str: string) { // separate teachers string to array by "," delimeter
-    let splited = str.replace(/,/g, '');
+    let splited = str.replace(/,/g, ' ');
     console.log('replaced:' + splited);
     let splitedStr = splited.split(' ');
     return splitedStr.filter(item => item != ' ' && item != '');
@@ -72,7 +72,7 @@ export default class SchedulePair extends Vue {
     return false;
   }
 
-  findRoomIdByName(name: string){
+  findRoomIdByName(name: string){ // return 0 if not found
     for (let i = 0; i != this.avalibleRooms.length; ++i){
       if (this.avalibleRooms[i].name == name){
         return this.avalibleRooms[i].room_id;
@@ -83,7 +83,6 @@ export default class SchedulePair extends Vue {
 
   updateExercise(){
     // later here should be opor. to send only one field without changing others
-    console.log('presented:' + this.isSelectedRoomPresented());
     this.pairRoomId = this.findRoomIdByName((this.$refs.selected_room as Vue & { initialValue: () => string}).initialValue.toString()).toString();
     console.log('update request: ' + this.pairTitle + ' ' + this.pairType + ' ' + this.pairRoomId.toString() + ' ' + this.separateToList(this.pairTeachers));
     if (this.pairTitle != '' && this.pairType != '' && this.pairRoomId != '0' && this.pairTeachers != ''){
