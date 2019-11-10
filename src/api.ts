@@ -22,6 +22,10 @@ export async function getSchedule(groupId: string, year: string, semester: strin
   })).data as ISchedule[];
 }
 
+export async function getRooms(): Promise<IRoom[]> {
+  return (await instance.get("/rooms")).data as IRoom[];
+}
+
 export async function getScheduleById(scheduleId: string): Promise<ISchedule> {
   return (await instance.get("/schedules/"+ scheduleId )).data as ISchedule;
 }

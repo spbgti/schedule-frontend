@@ -63,7 +63,7 @@ export default class SchedulePair extends Vue {
   async created(){
     await this.getRoom();
     await this.getLocation();
-    this.rendered = true;
+    this.rendered = true; // rendered only after getting all data from api
   }
 
 }

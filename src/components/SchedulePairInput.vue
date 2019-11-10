@@ -14,11 +14,13 @@
       ></v-text-field>
     </v-row>
     <v-row>
-      <v-text-field
-        v-model="pairRoomId"
-        label="room"
-        :placeholder="pairRoomIdPlaceholder"
-      ></v-text-field>
+      <v-autocomplete
+        :items="avalibleRoomsNames"
+        :item="name"
+        label="Select room"
+        autocomplete
+        persistent-hint="false"
+      ></v-autocomplete>
       <v-text-field
         v-model="pairTeachers"
         label="teachers(separate by ',')"
@@ -33,7 +35,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import { IExercise } from "@/interfaces"
+import { IExercise, IRoom } from "@/interfaces"
 import * as api from '@/api';
 
 @Component
@@ -49,6 +51,9 @@ export default class SchedulePair extends Vue {
   pairType: string = '';
   pairRoomId: string = '';
   pairTeachers: string = '';
+
+  avalibleRooms: Array<IRoom> = [];
+  avalibleRoomsNames : Array<string> = [];
 
   pairRoomIdPlaceholder: string = this.room_id.toString();
   pairTeachersString: string = this.teachers.join();
@@ -77,6 +82,17 @@ export default class SchedulePair extends Vue {
       }
       api.putExerciseById(this.id.toString(), changedEercise);
     }
+  }
+
+  getNamesByRooms(rooms: Array<IRoom>){
+    for (let i = 0; i != rooms.length; ++i){
+      this.avalibleRoomsNames.push(rooms[i].name);
+    }
+  }
+
+  async created(){
+    this.avalibleRooms = await api.getRooms();
+    this.getNamesByRooms(this.avalibleRooms);
   }
   
 }
