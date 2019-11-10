@@ -27,9 +27,26 @@
         :placeholder="pairTeachersString"
       ></v-text-field>
     </v-row>
-    <v-btn
-      @click="updateExercise"
-    >Send to server</v-btn>
+      <v-row>
+        <v-btn
+          @click="updateExercise"
+        >Send to server</v-btn>
+      </v-row>
+      <v-row>
+        <v-col>
+          if room dosn't exist - add new room and refresh the page
+          <v-text-field
+            v-model="newRoom"
+            label="Add new room here"
+          >
+          </v-text-field>
+        </v-col>
+        <v-col>
+          <v-btn
+            @click="addNewRoom"
+          >Add new room</v-btn>
+        </v-col>
+      </v-row>
   </v-container>
 </template>
 <script lang="ts">
@@ -47,10 +64,12 @@ export default class SchedulePair extends Vue {
   @Prop( {required: true, type: Number } ) readonly id!: number;
   @Prop( {required: true, type: Object } ) readonly exercise!: IExercise;
 
-  pairTitle: string = '';
-  pairType: string = '';
-  pairRoomId: string = '';
-  pairTeachers: string = '';
+  newRoom: string = '';
+
+  pairTitle: string = this.name;
+  pairType: string = this.type;
+  pairRoomId: string = this.room_id.toString();
+  pairTeachers: string = this.teachers.join(', ');
 
   avalibleRooms: Array<IRoom> = [];
   avalibleRoomsNames : Array<string> = [];
@@ -58,11 +77,21 @@ export default class SchedulePair extends Vue {
   pairRoomIdPlaceholder: string = this.room_id.toString();
   pairTeachersString: string = this.teachers.join();
 
+  addNewRoom(){
+    if (this.newRoom != ''){
+
+    }
+  }
+
   separateToList(str: string) { // separate teachers string to array by "," delimeter
     let splited = str.replace(/,/g, ' ');
     console.log('replaced:' + splited);
     let splitedStr = splited.split(' ');
     return splitedStr.filter(item => item != ' ' && item != '');
+  }
+
+  getMaxId(){
+    // get max room id to add +1 id value for post method 
   }
 
   isSelectedRoomPresented() {
@@ -73,7 +102,7 @@ export default class SchedulePair extends Vue {
   }
 
   findRoomIdByName(name: string){ // return 0 if not found
-    for (let i = 0; i != this.avalibleRooms.length; ++i){
+    for (let i = 0; i != this.avalibleRooms.length; ++i) {
       if (this.avalibleRooms[i].name == name){
         return this.avalibleRooms[i].room_id;
       }
