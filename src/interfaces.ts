@@ -1,12 +1,24 @@
 export interface IGroup {
-    group_id: Number;
+    group_id: number;
     number: string;
 }
 
+export interface IRoom {
+    room_id: number;
+    name: string;
+    location_id: number;
+}
+
+export interface ILocation {
+    location_id: number;
+    name: string;
+    geo_position: string; 
+}
+
 export interface IExercise {
-    exercise_id: Number;
+    exercise_id: number;
     schedule_id: string;
-    room_id: Number;
+    room_id: number;
     teachers: Array<string>;
     name: string;
     type: string;
@@ -16,7 +28,7 @@ export interface IExercise {
 }
 
 export interface ISchedule {
-    schedule_id: Number;
+    schedule_id: number;
     group_id: string;
     year: string;
     semester: string;

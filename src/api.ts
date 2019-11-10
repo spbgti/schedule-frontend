@@ -1,4 +1,4 @@
-import { IGroup, ISchedule, IExercise } from "@/interfaces";
+import { IGroup, ISchedule, IExercise, IRoom , ILocation} from "@/interfaces";
 
 import axios from "axios";
 
@@ -32,6 +32,14 @@ export async function getExerciseById(exerciseId: string): Promise<IExercise> {
 
 export async function getGroupNumById(grioupId: string): Promise<IGroup> {
   return (await instance.get("/groups/"+ grioupId )).data as IGroup;
+}
+
+export async function getLocationById(locationId: string): Promise<ILocation> {
+  return (await instance.get("/locations/" + locationId)).data as ILocation;
+}
+
+export async function getRoomById(roomId: string): Promise<IRoom> {
+  return (await instance.get("/rooms/"+ roomId )).data as IRoom;
 }
 
 export function putExerciseById(id: string, exercise: IExercise){

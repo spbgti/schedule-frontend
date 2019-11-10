@@ -61,6 +61,7 @@ export default class SchedulePair extends Vue {
   }
 
   updateExercise(){
+    // later here should be opor. to send only one field without changing others
     console.log('update request: ' + this.pairTitle + ' ' + this.pairType + ' ' + this.pairRoomId.toString() + ' ' + this.separateToList(this.pairTeachers));
     if (this.pairTitle != '' && this.pairType != '' && this.pairRoomId != '' && this.pairTeachers != ''){
       let changedEercise : IExercise = {
