@@ -51,8 +51,8 @@ export default class SchedulePair extends Vue {
   pairTeachers: string = '';
 
   separateToList(str: string) {
-    //let splited = str.split(',');
-    let splited = str.replace(',', ' ');
+    let splited = str.replace(/,/g, '');
+    console.log('replaced:' + splited);
     let splitedStr = splited.split(' ');
     return splitedStr.filter(item => item != ' ' && item != '');
   }
