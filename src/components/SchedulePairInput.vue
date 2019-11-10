@@ -17,7 +17,7 @@
       <v-text-field
         v-model="pairRoom"
         label="room"
-        :placeholder="room_id.toString()"
+        :placeholder="room_id"
       ></v-text-field>
       <v-text-field
         v-model="pairTeachers"
@@ -47,17 +47,24 @@ export default class SchedulePair extends Vue {
 
   pairTitle: string = '';
   pairType: string = '';
-  pairRoom: string = '';
+  pairRoom!: Number;
   pairTeachers: string = '';
 
+  separateToList(str: string) {
+    //let splited = str.split(',');
+    let splited = str.replace(',', ' ');
+    let splitedStr = splited.split(' ');
+    return splitedStr.filter(item => item != ' ' && item != '');
+  }
+
   updateExercise(){
-    console.log('update request: ' + this.pairTitle + ' ' + this.pairType + ' ' + this.pairRoom + ' ' + this.pairTeachers);
-    if (this.pairTitle != '' && this.pairType != '' && this.pairRoom != '' && this.pairTeachers != ''){
+    console.log('update request: ' + this.pairTitle + ' ' + this.pairType + ' ' + this.pairRoom + ' ' + this.separateToList(this.pairTeachers));
+    if (this.pairTitle != '' && this.pairType != '' && this.pairRoom != null && this.pairTeachers != ''){
       let changedEercise : IExercise = {
         exercise_id: this.id,
         schedule_id: this.exercise.schedule_id,
         room_id: this.pairRoom,
-        teachers: this.pairTeachers.toString(),
+        teachers: this.separateToList(this.pairTeachers),
         name: this.pairTitle,
         type: this.pairType,
         pair: this.exercise.pair,

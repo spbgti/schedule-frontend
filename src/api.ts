@@ -37,7 +37,9 @@ export async function getGroupNumById(grioupId: string): Promise<IGroup> {
 export function putExerciseById(id: string, exercise: IExercise){
   instance.put("/exercises/" + id, exercise)
   .then(function(response){
-    console.log('response:' + response.statusText);
+    console.log('response status:' + response.statusText);
+    console.log('response config:' + response.config.data);
+    console.log('response data:' + JSON.stringify(response.data));
   })
   .catch(function (error){
     console.log ('error:' + error);

@@ -6,8 +6,8 @@ export interface IGroup {
 export interface IExercise {
     exercise_id: Number;
     schedule_id: string;
-    room_id: string;
-    teachers: string;
+    room_id: Number;
+    teachers: Array<string>;
     name: string;
     type: string;
     pair: string;
