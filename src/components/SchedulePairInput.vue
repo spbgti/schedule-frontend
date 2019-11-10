@@ -15,11 +15,11 @@
     </v-row>
     <v-row>
       <v-autocomplete
+        ref="selected_room"
         :items="avalibleRoomsNames"
         :item="name"
         label="Select room"
         autocomplete
-        persistent-hint="false"
       ></v-autocomplete>
       <v-text-field
         v-model="pairTeachers"
@@ -65,10 +65,28 @@ export default class SchedulePair extends Vue {
     return splitedStr.filter(item => item != ' ' && item != '');
   }
 
+  isSelectedRoomPresented() {
+    if (this.avalibleRoomsNames.includes((this.$refs.selected_room as Vue & { initialValue: () => string}).initialValue.toString())){ // idk how it works ¯\_(ツ)_/¯
+      return true;
+    }
+    return false;
+  }
+
+  findRoomIdByName(name: string){
+    for (let i = 0; i != this.avalibleRooms.length; ++i){
+      if (this.avalibleRooms[i].name == name){
+        return this.avalibleRooms[i].room_id;
+      }
+    }
+    return 0;
+  }
+
   updateExercise(){
     // later here should be opor. to send only one field without changing others
+    console.log('presented:' + this.isSelectedRoomPresented());
+    this.pairRoomId = this.findRoomIdByName((this.$refs.selected_room as Vue & { initialValue: () => string}).initialValue.toString()).toString();
     console.log('update request: ' + this.pairTitle + ' ' + this.pairType + ' ' + this.pairRoomId.toString() + ' ' + this.separateToList(this.pairTeachers));
-    if (this.pairTitle != '' && this.pairType != '' && this.pairRoomId != '' && this.pairTeachers != ''){
+    if (this.pairTitle != '' && this.pairType != '' && this.pairRoomId != '0' && this.pairTeachers != ''){
       let changedEercise : IExercise = {
         exercise_id: this.id,
         schedule_id: this.exercise.schedule_id,
