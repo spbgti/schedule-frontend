@@ -16,21 +16,42 @@
                 md="auto"
                 class="text-center"
               >
-                {{ timeOfPairs[index][0] }}<br/>
+                {{ timeOfPairs[item.pair - 1][0] }}<br/>
                 -<br/>
-                {{ timeOfPairs[index][1] }}<br/>
+                {{ timeOfPairs[item.pair - 1][1] }}<br/>
+                <v-container
+                 v-if="index+1 != item.pair"
+                >
+                expected: {{item.pair}}
+                </v-container>
               </v-col>
               <v-col>
                 <schedule-pair
-                :name="item.name"
-                :type="item.type != null ? item.type : ''"
-                :room_id="item.room_id"
-                :teachers="item.teachers"
-              />
+                  :name="item.name"
+                  :type="item.type != null ? item.type : ''"
+                  :room_id="item.room_id"
+                  :teachers="item.teachers"
+                />
+              </v-col>
+              <v-col
+              v-if="type=='edit'"
+                md="auto"
+              >
+                <v-btn @click="openEditTab(item.exercise_id, 'old')">
+                  edit
+                </v-btn>
               </v-col>
             </v-list-item>
           </v-list>
         </v-card>
+      </v-row>
+      <v-row
+        v-if="type=='edit'"
+      >
+      <!-- need to change openEditTab: it requires ex id-->
+        <v-btn
+          @click="openEditTab(dayExercises[0].exercise_id, 'new')"
+        >Add new pair</v-btn>
       </v-row>
     </v-card>
   </v-container>
@@ -39,6 +60,7 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import SchedulePair from '@/components/SchedulePair.vue'
+import SchedulePairInput from '@/components/SchedulePairInput.vue'
 import { IExercise } from "@/interfaces"
 import store from "@/store"
 
@@ -46,10 +68,17 @@ import store from "@/store"
   name: 'ScheduleDay',
   components: {
     SchedulePair,
+    SchedulePairInput,
   }
 })
 export default class ScheduleDay extends Vue {
   @Prop( {required: true, type: Array } ) readonly dayExercises!: IExercise[];
+  @Prop( {required: true, type: String } ) readonly type!: string;
+
+  openEditTab(exercise_id: string, send_type: string){
+    let route = this.$router.resolve({ name: 'ScheduleEdit', params : { ex_id: exercise_id, send_type: send_type }});
+    window.open(route.href, '_blank');
+  }
 
   timeOfPairs = [
     ['9:30', '11:10'],

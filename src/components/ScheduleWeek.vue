@@ -9,11 +9,13 @@
       <v-col>
         <schedule-day
         :dayExercises="evenDaysSchedule['monday']"
+        :type="type"
         />
       </v-col>
       <v-col>
         <schedule-day
         :dayExercises="oddDaysSchedule['monday']"
+        :type="type"
         />
       </v-col>
     </v-row>
@@ -24,11 +26,13 @@
       <v-col>
         <schedule-day
         :dayExercises="evenDaysSchedule['tuesday']"
+        :type="type"
         />
       </v-col>
       <v-col>
         <schedule-day
         :dayExercises="oddDaysSchedule['tuesday']"
+        :type="type"
         />
       </v-col>
     </v-row>
@@ -39,11 +43,13 @@
       <v-col>
         <schedule-day
         :dayExercises="evenDaysSchedule['wednesday']"
+        :type="type"
         />
       </v-col>
       <v-col>
         <schedule-day
         :dayExercises="oddDaysSchedule['wednesday']"
+        :type="type"
         />
       </v-col>
     </v-row>
@@ -54,11 +60,13 @@
       <v-col>
         <schedule-day
         :dayExercises="evenDaysSchedule['thursday']"
+        :type="type"
         />
       </v-col>
       <v-col>
         <schedule-day
         :dayExercises="oddDaysSchedule['thursday']"
+        :type="type"
         />
       </v-col>
     </v-row>
@@ -69,11 +77,13 @@
       <v-col>
         <schedule-day
         :dayExercises="evenDaysSchedule['friday']"
+        :type="type"
         />
       </v-col>
       <v-col>
         <schedule-day
         :dayExercises="oddDaysSchedule['friday']"
+        :type="type"
         />
       </v-col>
     </v-row>
@@ -93,6 +103,7 @@ import ScheduleDay from '@/components/ScheduleDay.vue'
 })
 export default class ScheduleWeek extends Vue {
   @Prop( {required: true, type: Array } ) readonly exercises!: IExercise[];
+  @Prop( {required: true, type: String } ) readonly type!: string;
   
 
   created(){

@@ -5,6 +5,7 @@
       <v-col>
         <schedule-week
         :exercises="exercises"
+        :type="type"
         />
       </v-col>
     </v-row>
@@ -24,7 +25,8 @@ import ScheduleWeek from '@/components/ScheduleWeek.vue'
 })
 export default class ScheduleTable extends Vue {
   @Prop( {required: true, type: Array } ) readonly exercises!: IExercise[];
-  @Prop( {required: true, type: String } ) readonly groupNum!: String;
+  @Prop( {required: true, type: String } ) readonly groupNum!: string;
+  @Prop( {required: true, type: String } ) readonly type!: string;
 
     scheduleHeaders = [
     { text: "exercises id",
