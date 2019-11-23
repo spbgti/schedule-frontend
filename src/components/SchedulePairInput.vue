@@ -29,17 +29,26 @@
     </v-row>
       <v-row>
         <v-btn
+          v-if="sendType=='old'"
           @click="updateExercise"
         >Send to server</v-btn>
+                <v-btn
+          v-if="sendType=='new'"
+          @click="postExercise"
+        >Add new</v-btn>
       </v-row>
       <v-row>
         <v-col>
-          if room dosn't exist - add new room and refresh the page
+          if room dosn't exist - add new room
           <v-text-field
             v-model="newRoom"
             label="Add new room here"
-          >
-          </v-text-field>
+          ></v-text-field>
+          <v-autocomplete
+            ref="selected_location"
+            :items="avalibleLocationsNames"
+            autocomplete
+          ></v-autocomplete>
         </v-col>
         <v-col>
           <v-btn
@@ -52,11 +61,12 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import { IExercise, IRoom } from "@/interfaces"
+import { IExercise, IRoom, ILocation } from "@/interfaces"
 import * as api from '@/api';
 
 @Component
 export default class SchedulePair extends Vue {
+  @Prop( {required: true, type: String } ) readonly sendType!: string;
   @Prop( {required: true, type: String } ) readonly name!: string;
   @Prop( {required: true, type: String } ) readonly type!: string;
   @Prop( {required: true, type: Number } ) readonly room_id!: number;
@@ -73,14 +83,32 @@ export default class SchedulePair extends Vue {
 
   avalibleRooms: Array<IRoom> = [];
   avalibleRoomsNames : Array<string> = [];
+  avalibleLocations: Array<ILocation> = [];
+  avalibleLocationsNames: Array<string> = [];
 
   pairRoomIdPlaceholder: string = this.room_id.toString();
   pairTeachersString: string = this.teachers.join();
 
   addNewRoom(){
     if (this.newRoom != ''){
-
+      let selected_location = (this.$refs.selected_location as Vue & { initialValue: () => string}).initialValue.toString().toString();
+      let selected_location_id = this.findIdByNameInLocations(this.avalibleLocations, selected_location);
+      if (selected_location_id != this.nullCode){
+        api.postRoom(this.newRoom, selected_location_id);
+      }
     }
+    this.$forceUpdate();
+  }
+
+  nullCode: number = 404; // wtf heed new code for not found
+
+  findIdByNameInLocations(location: Array<ILocation>,name: string) {
+    for (let i = 0; i!= location.length; ++i) {
+      if (location[i].name == name){
+        return location[i].location_id;
+      }
+    }
+    return this.nullCode; 
   }
 
   separateToList(str: string) { // separate teachers string to array by "," delimeter
@@ -88,10 +116,6 @@ export default class SchedulePair extends Vue {
     console.log('replaced:' + splited);
     let splitedStr = splited.split(' ');
     return splitedStr.filter(item => item != ' ' && item != '');
-  }
-
-  getMaxId(){
-    // get max room id to add +1 id value for post method 
   }
 
   isSelectedRoomPresented() {
@@ -130,15 +154,27 @@ export default class SchedulePair extends Vue {
     }
   }
 
+  postExercise(){
+    console.log('post)))');
+  }
+
   getNamesByRooms(rooms: Array<IRoom>){
     for (let i = 0; i != rooms.length; ++i){
       this.avalibleRoomsNames.push(rooms[i].name);
     }
   }
 
+  getNamesByLocations(locations: Array<ILocation>){
+    for (let i = 0; i != locations.length; ++i){
+      this.avalibleLocationsNames.push(locations[i].name);
+    }
+  }
+
   async created(){
     this.avalibleRooms = await api.getRooms();
     this.getNamesByRooms(this.avalibleRooms);
+    this.avalibleLocations = await api.getLocations();
+    this.getNamesByLocations(this.avalibleLocations);
   }
   
 }

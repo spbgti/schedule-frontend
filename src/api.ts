@@ -26,6 +26,10 @@ export async function getRooms(): Promise<IRoom[]> {
   return (await instance.get("/rooms")).data as IRoom[];
 }
 
+export async function getLocations(): Promise<ILocation[]> {
+  return (await instance.get("/locations")).data as ILocation[];
+}
+
 export async function getScheduleById(scheduleId: string): Promise<ISchedule> {
   return (await instance.get("/schedules/"+ scheduleId )).data as ISchedule;
 }
@@ -54,6 +58,20 @@ export function putExerciseById(id: string, exercise: IExercise){
     console.log('response data:' + JSON.stringify(response.data));
   })
   .catch(function (error){
+    console.log ('error:' + error);
+  });
+}
+
+export function postRoom(name: string, locationId: number) {
+  let data = {
+    name: name,
+    location_id : locationId
+  }
+  instance.post("/rooms", data).then(function(response){
+    console.log('response status:' + response.statusText);
+    console.log('response config:' + response.config.data);
+    console.log('response data:' + JSON.stringify(response.data));
+  }).catch(function (error){
     console.log ('error:' + error);
   });
 }

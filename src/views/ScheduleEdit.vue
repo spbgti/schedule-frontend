@@ -7,6 +7,7 @@
     :teachers="exercise.teachers"
     :id="exercise.exercise_id"
     :exercise="exercise"
+    :sendType="sendType"
   />
 </template>
 
@@ -29,9 +30,11 @@ export default class ScheduleEdit extends Vue {
 
   exercise !: IExercise;
   rendered : boolean = false;
+  sendType !: string;
 
   async getCurrentExercise(){
     this.exercise = await api.getExerciseById(this.$route.params.ex_id);
+    this.sendType = this.$route.params.send_type;
   }
 
   async created(){

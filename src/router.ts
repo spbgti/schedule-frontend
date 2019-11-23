@@ -30,7 +30,7 @@ export default new Router({
       component: SchedulePage,
     },
     {
-      path: "/exercises/:ex_id/edit",
+      path: "/exercises/:ex_id&:send_type/edit",
       name: "ScheduleEdit",
       component: ScheduleEdit,
     },
