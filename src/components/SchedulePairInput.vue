@@ -155,7 +155,17 @@ export default class SchedulePair extends Vue {
   }
 
   postExercise(){
-    console.log('post)))');
+    let newExercise : IExercise = {
+        exercise_id: this.id,
+        schedule_id: this.exercise.schedule_id,
+        room_id: parseInt(this.pairRoomId),
+        teachers: this.separateToList(this.pairTeachers),
+        name: this.pairTitle,
+        type: this.pairType,
+        pair: this.exercise.pair, // +1 to cuurent last pair
+        day: this.exercise.day,
+        parity: this.exercise.parity,
+    }
   }
 
   getNamesByRooms(rooms: Array<IRoom>){

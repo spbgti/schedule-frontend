@@ -16,9 +16,14 @@
                 md="auto"
                 class="text-center"
               >
-                {{ timeOfPairs[index][0] }}<br/>
+                {{ timeOfPairs[item.pair - 1][0] }}<br/>
                 -<br/>
-                {{ timeOfPairs[index][1] }}<br/>
+                {{ timeOfPairs[item.pair - 1][1] }}<br/>
+                <v-container
+                 v-if="index+1 != item.pair"
+                >
+                expected: {{item.pair}}
+                </v-container>
               </v-col>
               <v-col>
                 <schedule-pair

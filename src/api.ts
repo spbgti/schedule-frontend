@@ -76,3 +76,23 @@ export function postRoom(name: string, locationId: number) {
   });
 }
 
+export function postExercise(exercise : IExercise){
+  let data = {
+    schedule_id: exercise.schedule_id,
+    room_id: exercise.room_id,
+    teachers: exercise.teachers,
+    name: exercise.name,
+    type: exercise.type,
+    pair: exercise.pair,
+    day: exercise.day,
+    parity: exercise.parity,
+  }
+  instance.post("/exercises", exercise).then(function(response){
+    console.log('response status:' + response.statusText);
+    console.log('response config:' + response.config.data);
+    console.log('response data:' + JSON.stringify(response.data));
+  }).catch(function (error){
+    console.log ('error:' + error);
+  });
+}
+
